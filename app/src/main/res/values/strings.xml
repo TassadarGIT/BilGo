@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">BilGo</string>
+    <string name="spinner_prompt">Select a gender</string>
+    <string-array name="gender_array">
+        <item>Select a gender</item> //Default option
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
 </resources>

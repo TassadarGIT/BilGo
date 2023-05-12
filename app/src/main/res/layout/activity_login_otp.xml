@@ -8,7 +8,7 @@
     android:gravity="center"
     android:layout_margin="20dp"
     android:weightSum="100"
-    tools:context=".LoginPhoneActivity">
+    tools:context=".LoginOtpActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_height="32dp"
             android:layout_margin="10dp"
             android:background="@drawable/circular_background"
-            android:backgroundTint="@color/my_secondary">
+            android:backgroundTint="@color/my_third">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
             android:layout_height="32dp"
             android:layout_margin="10dp"
             android:background="@drawable/circular_background"
-            android:backgroundTint="@color/my_third">
+            android:backgroundTint="@color/my_secondary">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/phone_icon"
+        android:src="@drawable/otp_background"
         app:tint="@color/my_secondary"
         android:layout_weight="20"
         />
@@ -85,7 +85,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Phone Number"
+        android:text="Enter OTP"
         android:textColor="@color/black"
         android:layout_gravity="center_vertical"
         android:letterSpacing="0.08"
@@ -99,18 +99,14 @@
         android:gravity="center"
         android:layout_weight="5">
 
-        <com.hbb20.CountryCodePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:ccp_showFlag="false"
-            app:ccp_showNameCode="false"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:hint="Mobile"
+            android:hint="One Time Password"
             android:inputType="phone"
+            android:maxLength="6"
             android:layout_margin="10dp"
             android:background="@drawable/edit_text_rectangle"
             android:elevation="3dp"
@@ -128,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Send Verification Code"
+            android:text="Next"
             android:backgroundTint="@color/my_secondary"/>
         <ProgressBar
             android:layout_width="32dp"
@@ -136,5 +132,11 @@
             android:indeterminateTint="@color/my_secondary"
             android:layout_gravity="center"/>
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:gravity="center"
+        android:text="Resend OTP After 30 Seconds"/>
 
 </LinearLayout>
