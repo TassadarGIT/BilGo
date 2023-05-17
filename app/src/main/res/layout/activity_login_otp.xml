@@ -110,6 +110,7 @@
             android:layout_margin="10dp"
             android:background="@drawable/edit_text_rectangle"
             android:elevation="3dp"
+            android:id="@+id/login_otp"
             />
 
     </LinearLayout>
@@ -125,18 +126,21 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Next"
+            android:id="@+id/login_next_btn"
             android:backgroundTint="@color/my_secondary"/>
         <ProgressBar
             android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:indeterminateTint="@color/my_secondary"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:id="@+id/login_progress_bar"/>
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="10"
         android:gravity="center"
-        android:text="Resend OTP After 30 Seconds"/>
+        android:text="Resend OTP After 30 Seconds"
+        android:id="@+id/resend_otp_textview"/>
 
 </LinearLayout>

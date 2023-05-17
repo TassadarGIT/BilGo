@@ -1,7 +1,16 @@
 package com.example.bilgo;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -10,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -17,7 +27,10 @@ import java.util.Calendar;
 
 
 public class LoginUserActivity extends AppCompatActivity {
+    private ActivityResultLauncher<String> mGetContent;
 
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    public static final int RESULT_LOAD_IMAGE = 2;
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
 
@@ -53,7 +66,54 @@ public class LoginUserActivity extends AppCompatActivity {
                 // Another interface callback
             }
         });
+
+        //Profile Picture Selector
+
+        ImageButton imageButton = findViewById(R.id.pp_selection_button);
+        mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+                new ActivityResultCallback<Uri>() {
+                    @Override
+                    public void onActivityResult(Uri uri) {
+                        // Handle the returned Uri
+                        imageButton.setImageURI(uri);
+                    }
+                });
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(LoginUserActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    // Permission is not granted, request for permission
+                    ActivityCompat.requestPermissions(LoginUserActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                } else {
+                    // Permission has already been granted, open the gallery
+                    mGetContent.launch("image/*");
+                }
+            }
+        });
     }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, open the gallery
+                    mGetContent.launch("image/*");
+                } else {
+                    // permission denied, show a message to the user
+                    Toast.makeText(this, "Permission denied to read your External storage",
+                            Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+            // other 'case' lines to check for other permissions this app might request
+        }
+    }
+
 
     private String getTodaysDate() {
         Calendar cal = Calendar.getInstance();
