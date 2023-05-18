@@ -19,16 +19,32 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.bilgo.model.UserModel;
+import com.example.bilgo.utils.FirebaseUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Calendar;
 
 
 public class LoginUserActivity extends AppCompatActivity {
-    private ActivityResultLauncher<String> mGetContent;
 
+    EditText usernameInput;
+    Button letMeInBtn;
+    ProgressBar progressBar;
+    String phoneNumber;
+    String gender;
+    String dateOfBirth;
+    UserModel userModel;
+    private ActivityResultLauncher<String> mGetContent;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     public static final int RESULT_LOAD_IMAGE = 2;
     private DatePickerDialog datePickerDialog;
@@ -39,25 +55,37 @@ public class LoginUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_username);
 
+        usernameInput = findViewById(R.id.login_username);
+        letMeInBtn = findViewById(R.id.login_let_me_in_btn);
+        progressBar = findViewById(R.id.login_progress_bar);
+
+        phoneNumber = getIntent().getExtras().getString("phone");
+        getUsername();
+
+        letMeInBtn.setOnClickListener((v) -> {
+            setUsername();
+        });
+
         //Birthday Picker
         setupBDatePicker();
         dateButton = findViewById(R.id.datePickerButton);
         dateButton.setText(getTodaysDate());
 
         //Gender Picker
-        Spinner spinner = findViewById(R.id.gender_spinner);
+        Spinner genderSelector = findViewById(R.id.gender_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.gender_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(0);
+        genderSelector.setAdapter(adapter);
+        genderSelector.setSelection(0);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        genderSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0) {
                     String selectedGender = parent.getItemAtPosition(position).toString();
                     // Do something with the selected item
+                    gender = genderSelector.getItemAtPosition(position).toString();
                     Toast.makeText(parent.getContext(), "Selected: " + selectedGender, Toast.LENGTH_LONG).show();
                 }
             }
@@ -93,6 +121,55 @@ public class LoginUserActivity extends AppCompatActivity {
         });
     }
 
+    void getUsername() {
+        setInProgress(true);
+        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                setInProgress(false);
+                if(task.isSuccessful()) {
+                    userModel = task.getResult().toObject(UserModel.class);
+
+                    if(userModel != null) {
+                        usernameInput.setText(userModel.getUsername());
+
+                    }
+                }
+            }
+        });
+    }
+
+    void setUsername() {
+
+        String username = usernameInput.getText().toString();
+        if(username.isEmpty() || username.length()<3) {
+            usernameInput.setError("Username length should at least be 3 characters!");
+            return;
+        }
+        setInProgress(true);
+
+        if(userModel!=null) {
+            userModel.setUsername(username);
+            userModel.setPhone(phoneNumber);
+            userModel.setGender(gender);
+            userModel.setDateOfBirth(dateOfBirth);
+
+        } else {
+            userModel = new UserModel(phoneNumber, username, gender, dateOfBirth, Timestamp.now());
+        }
+
+        FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                setInProgress(false);
+                if(task.isSuccessful()) {
+                    Intent intent = new Intent(LoginUserActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -134,6 +211,7 @@ public class LoginUserActivity extends AppCompatActivity {
             {
                 month = month + 1;
                 String date = makeDateString(day, month, year);
+                dateOfBirth = date;
                 dateButton.setText(date);
             }
         };
@@ -180,6 +258,16 @@ public class LoginUserActivity extends AppCompatActivity {
         //default should never happen
         return "JAN";
     }
+    void setInProgress(boolean inProgress) {
+        if(inProgress) {
+            progressBar.setVisibility(View.VISIBLE);
+            letMeInBtn.setVisibility(View.GONE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            letMeInBtn.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void openDatePicker(View view)
     {
         datePickerDialog.show();

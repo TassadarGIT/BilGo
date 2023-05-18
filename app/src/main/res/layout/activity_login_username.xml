@@ -88,7 +88,7 @@
             android:background="@drawable/edit_text_rectangle"
             android:elevation="3dp"
             android:hint="Name"
-            android:inputType="textPersonName"
+            android:inputType="text"
             android:padding="5dp" />
 
     </LinearLayout>
@@ -115,6 +115,7 @@
             android:layout_height="wrap_content"
             android:onClick="openDatePicker"
             android:text="01/01/2020"
+            android:elevation="3dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -171,12 +172,12 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/login_create_account_btn"
+            android:id="@+id/login_let_me_in_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:backgroundTint="@color/my_secondary"
-            android:text="Create Account" />
+            android:text="Let me in" />
 
         <ProgressBar
             android:id="@+id/login_progress_bar"
