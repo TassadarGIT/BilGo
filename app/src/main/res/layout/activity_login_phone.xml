@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:layout_margin="20dp"
     android:weightSum="100"
+    android:background="@color/my_primary"
     tools:context=".LoginPhoneActivity">
 
     <LinearLayout
@@ -86,6 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Phone Number"
+        android:layout_margin="10dp"
         android:textColor="@color/black"
         android:layout_gravity="center_vertical"
         android:letterSpacing="0.08"
@@ -96,12 +97,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_margin="10dp"
         android:gravity="center"
         android:layout_weight="5">
 
         <com.hbb20.CountryCodePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:ccp_defaultNameCode="TR"
             app:ccp_showFlag="false"
             app:ccp_showNameCode="false"
             android:id="@+id/login_countrycode"/>
@@ -125,6 +128,8 @@
         android:layout_height="100dp"
         android:gravity="center_vertical"
         android:orientation="vertical"
+        android:layout_margin="10dp"
+
         android:layout_weight="10">
         <Button
             android:layout_width="match_parent"

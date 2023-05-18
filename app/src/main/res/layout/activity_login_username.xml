@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/my_primary"
     android:gravity="center"
-    android:layout_margin="20dp"
+    android:orientation="vertical"
     android:weightSum="100"
     tools:context=".LoginUserActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="10">
+        android:layout_weight="10"
+        android:gravity="center">
 
         <RelativeLayout
             android:layout_width="32dp"
@@ -68,119 +68,122 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_weight="5"
+        android:layout_margin="10dp"
         android:gravity="center"
-        android:layout_weight="5">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name:"
-            android:textSize="18sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:hint="Name"
-            android:inputType="textPersonName"
             android:layout_margin="5dp"
             android:background="@drawable/edit_text_rectangle"
             android:elevation="3dp"
-            />
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:padding="5dp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_weight="5"
+        android:layout_margin="10dp"
         android:gravity="center"
-        android:layout_weight="5">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date of Birth:"
-            android:textSize="18sp"
             android:textColor="@color/black"
-            />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/datePickerButton"
+            style="?android:spinnerStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="openDatePicker"
             android:text="01/01/2020"
-            android:textSize="20sp"
             android:textColor="@color/black"
-            style="?android:spinnerStyle"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            android:onClick="openDatePicker"/>
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_weight="5"
+        android:layout_margin="10dp"
         android:gravity="center"
-        android:layout_weight="5">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Gender:"
-            android:textSize="18sp"
             android:textColor="@color/black"
-            />
+            android:textSize="18sp" />
+
         <Spinner
             android:id="@+id/gender_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:prompt="@string/spinner_prompt"
-            />
+            android:prompt="@string/spinner_prompt" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_weight="5"
         android:gravity="center"
-        android:layout_weight="5">
+        android:orientation="horizontal">
 
 
         <ImageButton
             android:id="@+id/pp_selection_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_person_24"
             android:background="?android:attr/selectableItemBackground"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/baseline_person_24" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_weight="10"
+        android:layout_margin="10dp"
         android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:layout_weight="10">
+        android:orientation="vertical">
+
         <Button
+            android:id="@+id/login_create_account_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Create Account"
-            android:id="@+id/login_create_account_btn"
-            android:backgroundTint="@color/my_secondary"/>
+            android:backgroundTint="@color/my_secondary"
+            android:text="Create Account" />
+
         <ProgressBar
+            android:id="@+id/login_progress_bar"
             android:layout_width="32dp"
             android:layout_height="wrap_content"
-            android:indeterminateTint="@color/my_secondary"
             android:layout_gravity="center"
-            android:id="@+id/login_progress_bar"/>
+            android:indeterminateTint="@color/my_secondary" />
     </LinearLayout>
 
 </LinearLayout>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:layout_margin="20dp"
+    android:background="@color/my_primary"
     android:weightSum="100"
     tools:context=".LoginOtpActivity">
 
@@ -86,6 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Enter OTP"
+        android:layout_margin="10dp"
         android:textColor="@color/black"
         android:layout_gravity="center_vertical"
         android:letterSpacing="0.08"
@@ -97,6 +98,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
+        android:layout_margin="10dp"
+
         android:layout_weight="5">
 
 
@@ -120,6 +123,8 @@
         android:layout_height="100dp"
         android:gravity="center_vertical"
         android:orientation="vertical"
+        android:layout_margin="10dp"
+
         android:layout_weight="10">
         <Button
             android:layout_width="match_parent"
