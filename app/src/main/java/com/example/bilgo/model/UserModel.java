@@ -1,12 +1,11 @@
 package com.example.bilgo.model;
 
-import android.media.Image;
-
 import com.google.firebase.Timestamp;
 
 public class UserModel {
     private String phone;
-    private String username;
+    private String name;
+    private String surname;
     private String gender;
     private String dateOfBirth;
     private Timestamp createdTimeStamp;
@@ -14,9 +13,11 @@ public class UserModel {
     public UserModel() {
     }
 
-    public UserModel(String phone, String username, String gender, String dateOfBirth,  Timestamp createdTimeStamp) {
+
+    public UserModel(String phone, String name, String surname, String gender, String dateOfBirth, Timestamp createdTimeStamp) {
         this.phone = phone;
-        this.username = username;
+        this.name = name;
+        this.surname = surname;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.createdTimeStamp = createdTimeStamp;
@@ -30,12 +31,19 @@ public class UserModel {
         this.phone = phone;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getGender() {

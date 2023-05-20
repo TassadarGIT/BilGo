@@ -1,11 +1,17 @@
 package com.example.bilgo;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -18,7 +24,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Calendar;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileFragment extends Fragment {
 
     private EditText profileNameInput;
     private EditText profileSurnameInput;
@@ -32,19 +38,24 @@ public class ProfileActivity extends AppCompatActivity {
     private Button dateButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.activity_profile, container, false);
+    }
 
-        profileNameInput = findViewById(R.id.profile_name_edit);
-        profileSurnameInput = findViewById(R.id.profile_surname_edit);
-        profilePhoneInput = findViewById(R.id.profile_phone_edit);
-        profileLogoutBtn = findViewById(R.id.profile_logout_btn);
-        profileSaveBtn = findViewById(R.id.profile_save_btn);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        profileNameInput = view.findViewById(R.id.profile_name_edit);
+        profileSurnameInput = view.findViewById(R.id.profile_surname_edit);
+        profilePhoneInput = view.findViewById(R.id.profile_phone_edit);
+        profileLogoutBtn = view.findViewById(R.id.profile_logout_btn);
+        profileSaveBtn = view.findViewById(R.id.profile_save_btn);
 
-        setupBDatePicker();
-        dateButton = findViewById(R.id.datePickerButton);
+        setupBDatePicker(view.getContext());
+        dateButton = view.findViewById(R.id.datePickerButton);
 
         getUser();
 
@@ -78,9 +89,17 @@ public class ProfileActivity extends AppCompatActivity {
         userModel.setName(profileNameInput.getText().toString());
         userModel.setSurname(profileSurnameInput.getText().toString());
         userModel.setDateOfBirth(dateOfBirth);
+
+        FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()) {
+                }
+            }
+        });
     }
 
-    private void setupBDatePicker()
+    private void setupBDatePicker(Context context)
     {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
         {
@@ -99,7 +118,7 @@ public class ProfileActivity extends AppCompatActivity {
         int day = cal.get(Calendar.DAY_OF_MONTH);
         int style = AlertDialog.THEME_HOLO_LIGHT;
 
-        datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
+        datePickerDialog = new DatePickerDialog(context, style, dateSetListener, year, month, day);
         //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
     }
 

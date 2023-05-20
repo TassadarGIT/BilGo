@@ -37,9 +37,12 @@ import java.util.Calendar;
 
 public class LoginUserActivity extends AppCompatActivity {
 
-    EditText usernameInput;
+    EditText nameInput;
+    EditText surnameInput;
     Button letMeInBtn;
     ProgressBar progressBar;
+    String name;
+    String surname;
     String phoneNumber;
     String gender;
     String dateOfBirth;
@@ -53,28 +56,32 @@ public class LoginUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login_username);
 
-        usernameInput = findViewById(R.id.login_username);
+        nameInput = findViewById(R.id.login_name);
+        surnameInput = findViewById(R.id.login_surname_editText);
         letMeInBtn = findViewById(R.id.login_let_me_in_btn);
         progressBar = findViewById(R.id.login_progress_bar);
 
         phoneNumber = getIntent().getExtras().getString("phone");
-        getUsername();
 
-        letMeInBtn.setOnClickListener((v) -> {
-            setUsername();
-        });
+        getUsername();
 
         //Birthday Picker
         setupBDatePicker();
         dateButton = findViewById(R.id.datePickerButton);
         dateButton.setText(getTodaysDate());
 
+        letMeInBtn.setOnClickListener((v) -> {
+            setUsername();
+        });
+
+
+
         //Gender Picker
         Spinner genderSelector = findViewById(R.id.gender_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.gender_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.gender_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderSelector.setAdapter(adapter);
         genderSelector.setSelection(0);
@@ -131,8 +138,9 @@ public class LoginUserActivity extends AppCompatActivity {
                     userModel = task.getResult().toObject(UserModel.class);
 
                     if(userModel != null) {
-                        usernameInput.setText(userModel.getUsername());
-
+                        nameInput.setText(userModel.getName());
+                        surnameInput.setText(userModel.getSurname());
+                        dateButton.setText(userModel.getDateOfBirth());
                     }
                 }
             }
@@ -140,22 +148,28 @@ public class LoginUserActivity extends AppCompatActivity {
     }
 
     void setUsername() {
+        name = nameInput.getText().toString();
+        surname = surnameInput.getText().toString();
 
-        String username = usernameInput.getText().toString();
-        if(username.isEmpty() || username.length()<3) {
-            usernameInput.setError("Username length should at least be 3 characters!");
+        if(name.isEmpty() || name.length()<3) {
+            nameInput.setError("Name length should at least be 3 characters!");
+            return;
+        }
+        if(surname.isEmpty() || surname.length()<3) {
+            surnameInput.setError("Surname length should at least be 3 characters!");
             return;
         }
         setInProgress(true);
 
         if(userModel!=null) {
-            userModel.setUsername(username);
+            userModel.setName(name);
+            userModel.setSurname(surname);
             userModel.setPhone(phoneNumber);
             userModel.setGender(gender);
             userModel.setDateOfBirth(dateOfBirth);
 
         } else {
-            userModel = new UserModel(phoneNumber, username, gender, dateOfBirth, Timestamp.now());
+            userModel = new UserModel(phoneNumber, name, surname, gender, dateOfBirth, Timestamp.now());
         }
 
         FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -190,7 +204,6 @@ public class LoginUserActivity extends AppCompatActivity {
             // other 'case' lines to check for other permissions this app might request
         }
     }
-
 
     private String getTodaysDate() {
         Calendar cal = Calendar.getInstance();

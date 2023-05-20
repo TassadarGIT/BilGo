@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Ring Tracking"
+        android:icon="@drawable/baseline_ring_24"
+        android:id="@+id/menu_ring"
+        />
+    <item android:title="Hitchhiking"
+        android:icon="@drawable/baseline_waving_hand_24"
+        android:id="@+id/menu_hitch"
+        />
+    <item android:title="Taxi Sharing"
+        android:icon="@drawable/baseline_local_taxi_24"
+        android:id="@+id/menu_taxi"
+        />
+    <item android:title="Leaderboard"
+        android:icon="@drawable/baseline_leaderboard_24"
+        android:id="@+id/menu_leaderboard"
+        />
+    <item android:title="Profile"
+        android:icon="@drawable/baseline_person_24"
+        android:id="@+id/menu_profile"
+        />
+</menu>
