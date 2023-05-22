@@ -9,6 +9,7 @@ public class UserModel {
     private String gender;
     private String dateOfBirth;
     private Timestamp createdTimeStamp;
+    private int points;
 
     public UserModel() {
     }
@@ -21,6 +22,13 @@ public class UserModel {
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.createdTimeStamp = createdTimeStamp;
+        this.points = 0;
+    }
+
+    public UserModel(String name, String surname, int points) {
+        this.name = name;
+        this.surname = surname;
+        this.points = points;
     }
 
     public String getPhone() {
@@ -69,4 +77,9 @@ public class UserModel {
     public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
         this.createdTimeStamp = createdTimeStamp;
     }
+
+    public int getPoints() { return this.points; }
+    public void setPoints(int points) { this.points = points; }
+
+
 }

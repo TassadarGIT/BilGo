@@ -14,12 +14,14 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     ProfileFragment profileFragment;
+    LeaderboardFragment leaderboardFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         profileFragment = new ProfileFragment();
+        leaderboardFragment = new LeaderboardFragment();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId() == R.id.menu_profile) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, profileFragment).commit();
+                } else if(item.getItemId() == R.id.menu_leaderboard) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, leaderboardFragment).commit();
                 }
                 return false;
             }
