@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     ProfileFragment profileFragment;
     LeaderboardFragment leaderboardFragment;
+    TaxiFragment taxiFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         profileFragment = new ProfileFragment();
         leaderboardFragment = new LeaderboardFragment();
+        taxiFragment = new TaxiFragment();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, profileFragment).commit();
                 } else if(item.getItemId() == R.id.menu_leaderboard) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, leaderboardFragment).commit();
+                } else if(item.getItemId() == R.id.menu_taxi) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, taxiFragment).commit();
                 }
                 return false;
             }

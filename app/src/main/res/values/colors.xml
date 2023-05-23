@@ -3,7 +3,10 @@
     <color name="my_primary">#C5C8DA</color>
     <color name="my_secondary">#371E3E</color>
     <color name="my_third">#E7EBEE</color>
-
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray_1">#dadde1</color>
+    <color name="gray_2">#c0c4ca</color>
+    <color name="gray_3">#9b9a9e</color>
+
 </resources>
