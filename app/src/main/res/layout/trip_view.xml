@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/round_rectangle"
+        android:backgroundTint="@color/gray_2"
+        android:elevation="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/baseline_my_location_24"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="From"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/baseline_location_on_24"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="To"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/round_rectangle"
+        android:backgroundTint="@color/gray_3"
+        android:elevation="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tripTime"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="At: "
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:background="@drawable/round_rectangle"
+            android:backgroundTint="@color/gray_2"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="128dp"/>
+
+        <Button
+            android:id="@+id/joinBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Join"
+            android:textColor="@color/black"
+            android:background="@drawable/round_rectangle"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginLeft="128dp"
+            android:layout_marginRight="8dp"/>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/round_rectangle"
+        android:backgroundTint="@color/gray_3">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="10sp"
+            android:text="3 slots available"
+            android:textSize="8sp"
+            android:textColor="@color/black"
+
+            android:gravity="right"
+            android:layout_marginRight="4dp"/>
+
+    </LinearLayout>
+</LinearLayout>
