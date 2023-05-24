@@ -7,12 +7,12 @@
     android:background="@color/my_primary"
     tools:context=".MainActivity">
 
+
     <FrameLayout
+        android:id="@+id/main_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/divider"
-        android:id="@+id/main_frame_layout"
-        />
+        android:layout_above="@id/divider"/>
     
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
