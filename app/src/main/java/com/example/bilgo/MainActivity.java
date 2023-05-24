@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, profileFragment).commit();
                 } else if(item.getItemId() == R.id.menu_leaderboard) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, leaderboardFragment).commit();
-                } else if(item.getItemId() == R.id.menu_taxi) {
+                } //else if(item.getItemId() == R.id.menu_taxi) {
                     //getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, taxiFragment).commit();
-                }
+                //}
                 return false;
             }
         });
