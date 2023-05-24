@@ -8,5 +8,6 @@
     <color name="gray_1">#dadde1</color>
     <color name="gray_2">#c0c4ca</color>
     <color name="gray_3">#9b9a9e</color>
+    <color name="non_clickable">#FF000000</color>
 
 </resources>

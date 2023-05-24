@@ -14,14 +14,36 @@
         android:layout_margin="20dp"
         android:gravity="center"
         android:orientation="vertical">
-        <Button
-            android:id="@+id/profile_logout_btn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Log out"
-            android:backgroundTint="@color/my_secondary"
-            android:layout_gravity="end"
-            android:layout_margin="8dp"/>
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/rank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="70dp"
+                android:text="Rank: "
+                android:background="@drawable/round_rectangle"
+                android:backgroundTint="@color/black"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:textAllCaps="true"/>
+            <Button
+                android:id="@+id/profile_logout_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Log out"
+                android:backgroundTint="@color/my_secondary"
+                android:layout_gravity="end"
+                android:layout_marginLeft="70dp"/>
+        </LinearLayout>
         <ImageView
                 android:id="@+id/profilePicture"
                 android:layout_width="100dp"
@@ -51,7 +73,7 @@
             android:id="@+id/profile_name_edit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Emre"
+            android:hint="Name"
             android:layout_marginBottom="8dp"/>
         <TextView
             android:layout_width="match_parent"
@@ -61,7 +83,7 @@
             android:id="@+id/profile_surname_edit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Yazicioglu"
+            android:hint="Surname"
             android:layout_marginBottom="8dp"/>
         <TextView
             android:layout_width="match_parent"
@@ -71,7 +93,7 @@
             android:id="@+id/profile_phone_edit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="+905555555555"
+            android:hint="Phone number"
             android:layout_marginBottom="8dp"/>
         <TextView
             android:layout_width="match_parent"
@@ -83,10 +105,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="openDatePicker"
-            android:text="19/05/2023"
+            android:text="DD/MM/YYYY"
             android:elevation="3dp"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
         <Button
             android:id="@+id/profile_save_btn"

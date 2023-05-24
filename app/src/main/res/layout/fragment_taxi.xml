@@ -26,7 +26,7 @@
             android:textAlignment="center"
             android:textColor="@color/white"
             android:background="@drawable/round_rectangle"
-            android:backgroundTint="@color/my_secondary"
+            android:backgroundTint="@color/non_clickable"
             android:layout_margin="8dp"/>
 
         <androidx.recyclerview.widget.RecyclerView

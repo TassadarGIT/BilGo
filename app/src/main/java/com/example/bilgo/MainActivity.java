@@ -14,9 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     ProfileFragment profileFragment;
     LeaderboardFragment leaderboardFragment;
-    //TaxiFragment taxiFragment;
+    TaxiFragment taxiFragment;
     MapFragment mapFragment;
-    //TaxiFragment taxiFragment;
     HitchhikingFragment hitchhikingFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         profileFragment = new ProfileFragment();
         leaderboardFragment = new LeaderboardFragment();
-        //taxiFragment = new TaxiFragment();
+        taxiFragment = new TaxiFragment();
         mapFragment = new MapFragment();
         hitchhikingFragment = new HitchhikingFragment();
 
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if(item.getItemId() == R.id.menu_leaderboard) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, leaderboardFragment).commit();
                 } else if(item.getItemId() == R.id.menu_taxi) {
-                    //getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, taxiFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, taxiFragment).commit();
                 } else if(item.getItemId() == R.id.menu_ring) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, mapFragment).commit();
                 } else if(item.getItemId() == R.id.menu_hitch) {

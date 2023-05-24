@@ -2,102 +2,124 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/round_rectangle"
-        android:backgroundTint="@color/gray_2"
-        android:elevation="10dp"
-        android:orientation="horizontal">
+        android:backgroundTint="@color/gray_2">
+        <LinearLayout
+            android:id="@+id/linearFirst"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:elevation="10dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/baseline_my_location_24"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:text="From"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/baseline_location_on_24"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:text="To"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearSecond"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@id/linearFirst">
+            <Button
+                android:id="@+id/deptBtn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/gray_1"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:text="Bilkent"
+                android:textColor="@color/black"
+                android:textAllCaps="false"
+                android:textAlignment="viewStart"/>
+            <Button
+                android:id="@+id/destBtn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/gray_1"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:text="ASTI"
+                android:textColor="@color/black"
+                android:textAllCaps="false"
+                android:textAlignment="viewStart"/>
+        </LinearLayout>
+    </RelativeLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/baseline_my_location_24"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="From"
-            android:textColor="@color/black"
-            android:textSize="16sp"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/baseline_location_on_24"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="To"
-            android:textColor="@color/black"
-            android:textSize="16sp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/topPanel"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/round_rectangle"
-        android:backgroundTint="@color/gray_3"
-        android:elevation="10dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/tripTime"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="At: "
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:background="@drawable/round_rectangle"
-            android:backgroundTint="@color/gray_2"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="128dp"/>
-
-        <Button
-            android:id="@+id/joinBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Join"
-            android:textColor="@color/black"
-            android:background="@drawable/round_rectangle"
-            android:backgroundTint="@color/white"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:layout_marginLeft="128dp"
-            android:layout_marginRight="8dp"/>
-
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/round_rectangle"
         android:backgroundTint="@color/gray_3">
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/linearThird"
             android:layout_width="match_parent"
-            android:layout_height="10sp"
-            android:text="3 slots available"
-            android:textSize="8sp"
-            android:textColor="@color/black"
+            android:layout_height="48dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/tripTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/round_rectangle"
+                android:backgroundTint="@color/gray_2"
+                android:gravity="center"
+                android:text="At: 14.30"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <Button
+                android:id="@+id/joinBtn"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="Join"
+                android:backgroundTint="@color/my_secondary"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="8dp"/>
+        </LinearLayout>
 
-            android:gravity="right"
-            android:layout_marginRight="4dp"/>
-
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearFourth"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_below="@+id/linearThird">
+            <TextView
+                android:id="@+id/seatsAvailable"
+                android:layout_width="match_parent"
+                android:layout_height="16sp"
+                android:text="3 slots available"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:gravity="right"
+                android:layout_marginRight="8dp"/>
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>
