@@ -56,12 +56,11 @@
             android:backgroundTint="@color/my_secondary">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="3"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" android:layout_centerInParent="true"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -183,8 +182,8 @@
 
         <ImageButton
             android:id="@+id/pp_selection_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:background="?android:attr/selectableItemBackground"
             android:scaleType="fitCenter"
             android:src="@drawable/baseline_person_24" />

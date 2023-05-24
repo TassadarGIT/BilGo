@@ -1,5 +1,7 @@
 package com.example.bilgo;
 
+import android.util.Base64;
+import android.util.Log;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -8,6 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.Manifest;
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import android.net.Uri;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -28,17 +35,29 @@ import android.widget.Toast;
 import com.example.bilgo.model.UserModel;
 import com.example.bilgo.utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
+
+import static android.content.ContentValues.TAG;
 
 
 public class LoginUserActivity extends AppCompatActivity {
 
     EditText nameInput;
     EditText surnameInput;
+    ImageButton ppSelectionButton;
     Button letMeInBtn;
     ProgressBar progressBar;
     String name;
@@ -49,7 +68,6 @@ public class LoginUserActivity extends AppCompatActivity {
     UserModel userModel;
     private ActivityResultLauncher<String> mGetContent;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    public static final int RESULT_LOAD_IMAGE = 2;
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
 
@@ -63,6 +81,7 @@ public class LoginUserActivity extends AppCompatActivity {
         surnameInput = findViewById(R.id.login_surname_editText);
         letMeInBtn = findViewById(R.id.login_let_me_in_btn);
         progressBar = findViewById(R.id.login_progress_bar);
+        ppSelectionButton = findViewById(R.id.pp_selection_button);
 
         phoneNumber = getIntent().getExtras().getString("phone");
 
@@ -104,29 +123,117 @@ public class LoginUserActivity extends AppCompatActivity {
 
         //Profile Picture Selector
 
-        ImageButton imageButton = findViewById(R.id.pp_selection_button);
         mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
                 new ActivityResultCallback<Uri>() {
                     @Override
                     public void onActivityResult(Uri uri) {
-                        // Handle the returned Uri
-                        imageButton.setImageURI(uri);
+                        uploadImageToFirebase(uri);
                     }
                 });
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
+
+        ppSelectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(LoginUserActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    // Permission is not granted, request for permission
-                    ActivityCompat.requestPermissions(LoginUserActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                } else {
-                    // Permission has already been granted, open the gallery
-                    mGetContent.launch("image/*");
+            public void onClick(View view) {
+                mGetContent.launch("image/*");
+            }
+        });
+
+    }
+
+    private void uploadImageToFirebase(Uri imageUri) {
+        String userId = FirebaseUtil.currentUserID();
+        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    userModel = task.getResult().toObject(UserModel.class);
                 }
             }
         });
+
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            byte[] imageBytes = getBytesFromInputStream(inputStream);
+
+            // Initialize Firebase Storage
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference imagesRef = storageRef.child("images/" + userId);
+
+            UploadTask uploadTask = imagesRef.putBytes(imageBytes);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // Get the download URL
+                    imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // Now uri is the download URL that you can store in Firestore
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            DocumentReference userRef = db.collection("users").document(userId);
+                            userRef.update("profileImageUri", uri.toString())
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            userModel.setProfilePictureLink(uri.toString());
+
+                                            // Load image into ImageButton
+                                            Glide.with(LoginUserActivity.this)
+                                                    .load(uri)
+                                                    .into(ppSelectionButton);
+
+                                            Log.d(TAG, "URI stored successfully!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.e(TAG, "Error storing URI", e);
+                                        }
+                                    });
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                    Log.e(TAG, "Error uploading image", exception);
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    private byte[] getBytesFromInputStream(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, launch the image picker
+                mGetContent.launch("image/*");
+            } else {
+                // Permission denied, show a toast or handle the error
+                Toast.makeText(this, "Permission denied. Unable to pick an image.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
 
     void getUsername() {
         setInProgress(true);
@@ -167,7 +274,6 @@ public class LoginUserActivity extends AppCompatActivity {
             userModel.setPhone(phoneNumber);
             userModel.setGender(gender);
             userModel.setDateOfBirth(dateOfBirth);
-
         } else {
             userModel = new UserModel(phoneNumber, name, surname, gender, dateOfBirth, Timestamp.now());
         }
@@ -183,26 +289,6 @@ public class LoginUserActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, open the gallery
-                    mGetContent.launch("image/*");
-                } else {
-                    // permission denied, show a message to the user
-                    Toast.makeText(this, "Permission denied to read your External storage",
-                            Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-            // other 'case' lines to check for other permissions this app might request
-        }
     }
 
     private String getTodaysDate() {

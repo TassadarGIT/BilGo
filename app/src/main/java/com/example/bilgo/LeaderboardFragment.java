@@ -21,7 +21,6 @@ import com.google.firebase.firestore.Query;
 import java.util.List;
 
 public class LeaderboardFragment extends Fragment {
-
     private RecyclerView recyclerView;
     private LeaderboardAdapter leaderboardAdapter;
     private FirebaseFirestore firestore;

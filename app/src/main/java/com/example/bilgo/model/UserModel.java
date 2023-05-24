@@ -9,6 +9,7 @@ public class UserModel {
     private String gender;
     private String dateOfBirth;
     private Timestamp createdTimeStamp;
+    private String profilePictureLink;
     private int points;
 
     public UserModel() {
@@ -23,6 +24,15 @@ public class UserModel {
         this.dateOfBirth = dateOfBirth;
         this.createdTimeStamp = createdTimeStamp;
         this.points = 0;
+        this.profilePictureLink = "";
+    }
+
+    public String getProfilePictureLink() {
+        return profilePictureLink;
+    }
+
+    public void setProfilePictureLink(String profilePictureLink) {
+        this.profilePictureLink = profilePictureLink;
     }
 
     public UserModel(String name, String surname, int points) {
