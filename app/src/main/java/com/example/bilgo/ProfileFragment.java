@@ -1,7 +1,6 @@
 package com.example.bilgo;
 
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.*;
 import androidx.activity.result.ActivityResultCallback;
@@ -57,6 +56,7 @@ public class ProfileFragment extends Fragment {
     private UserModel userModel;
     private DatePickerDialog datePickerDialog;
     private Button dateButton;
+    private TextView profileRank;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +74,7 @@ public class ProfileFragment extends Fragment {
         profilePhoneInput = view.findViewById(R.id.profile_phone_edit);
         profileLogoutBtn = view.findViewById(R.id.profile_logout_btn);
         profileSaveBtn = view.findViewById(R.id.profile_save_btn);
+        profileRank = view.findViewById(R.id.rank);
 
         profilePicture = view.findViewById(R.id.profilePicture);
         profilePictureButton = view.findViewById(R.id.pp_change_button);
@@ -133,6 +134,7 @@ public class ProfileFragment extends Fragment {
                         profilePhoneInput.setText(phoneNumber);
                         dateButton.setText(userModel.getDateOfBirth());
                         loadProfileImage(userModel.getProfilePictureLink());
+                        profileRank.setText("Rank: " + userModel.getRank()); // TODO
                     }
                 }
             }

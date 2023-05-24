@@ -11,20 +11,23 @@ public class UserModel {
     private Timestamp createdTimeStamp;
     private String profilePictureLink;
     private int points;
+    private int rank;
+    private String id;
 
     public UserModel() {
+
     }
 
-
-    public UserModel(String phone, String name, String surname, String gender, String dateOfBirth, Timestamp createdTimeStamp) {
+    public UserModel(String phone, String name, String surname, String gender, String dateOfBirth, Timestamp createdTimeStamp, String profilePictureLink, int points, int rank) {
         this.phone = phone;
         this.name = name;
         this.surname = surname;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.createdTimeStamp = createdTimeStamp;
+        this.profilePictureLink = profilePictureLink;
         this.points = 0;
-        this.profilePictureLink = "";
+        this.rank = -1;
     }
 
     public String getProfilePictureLink() {
@@ -91,5 +94,20 @@ public class UserModel {
     public int getPoints() { return this.points; }
     public void setPoints(int points) { this.points = points; }
 
+    public int getRank() {
+        return this.rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
 }

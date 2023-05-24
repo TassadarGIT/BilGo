@@ -43,18 +43,18 @@ public class TaxiAdapter extends RecyclerView.Adapter<TaxiAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tripTimeTextView;
-        private TextView pointsTextView;
+        private TextView tripTimeText;
+        private TextView seatsAvailableText;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tripTimeTextView = itemView.findViewById(R.id.tripTime);
-            pointsTextView = itemView.findViewById(R.id.points);
+            tripTimeText = itemView.findViewById(R.id.tripTime);
+            seatsAvailableText = itemView.findViewById(R.id.seatsAvailable);
         }
 
         public void bind(TripModel trip) {
-            tripTimeTextView.setText("At: " + trip.getDate().toString());
-//            pointsTextView.setText(String.valueOf(trip.getPoints()));
+            tripTimeText.setText("At: " + trip.getDate().toString());
+            seatsAvailableText.setText(trip.getSeatsAvailable() + " slots available");
         }
     }
 }

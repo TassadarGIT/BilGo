@@ -2,16 +2,18 @@ package com.example.bilgo.model;
 
 import com.google.firebase.firestore.GeoPoint;
 
-import java.util.Date;
-
 public class TripModel {
 
     private GeoPoint departurePoint;
     private GeoPoint destinationPoint;
-    private Date date;
+    private String date;
     private int seatsAvailable = 4;
 
-    public TripModel(GeoPoint departurePoint, GeoPoint destinationPoint, Date date, int seatsAvailable) {
+    public TripModel() {
+
+    }
+
+    public TripModel(GeoPoint departurePoint, GeoPoint destinationPoint, String date, int seatsAvailable) {
         this.departurePoint = departurePoint;
         this.destinationPoint = destinationPoint;
         this.date = date;
@@ -34,11 +36,11 @@ public class TripModel {
         this.destinationPoint = destinationPoint;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

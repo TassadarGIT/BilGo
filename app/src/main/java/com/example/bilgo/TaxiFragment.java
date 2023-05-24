@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.bilgo.model.TripModel;
 import com.google.firebase.firestore.CollectionReference;
@@ -47,11 +46,10 @@ public class TaxiFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         firestore = FirebaseFirestore.getInstance();
-        tripRef = firestore.collection("users"); // TODO: "trips"
-        tripAdapter = new TaxiAdapter(tripList); // TODO: TaxiAdapter
-        final Button[] joinBtn = new Button[1];
+        tripRef = firestore.collection("trips");
+        tripAdapter = new TaxiAdapter(tripList);
 
-        tripRef.orderBy("points", Query.Direction.DESCENDING).addSnapshotListener((querySnapshot, error) -> {
+        tripRef.orderBy("seatsAvailable", Query.Direction.DESCENDING).addSnapshotListener((querySnapshot, error) -> {
             if (error != null) {
                 // TODO: Handle the error
                 return;
