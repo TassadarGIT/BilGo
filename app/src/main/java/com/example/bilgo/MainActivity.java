@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     //TaxiFragment taxiFragment;
     MapFragment mapFragment;
     //TaxiFragment taxiFragment;
+    HitchhikingFragment hitchhikingFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         leaderboardFragment = new LeaderboardFragment();
         //taxiFragment = new TaxiFragment();
         mapFragment = new MapFragment();
-        //taxiFragment = new TaxiFragment();
+        hitchhikingFragment = new HitchhikingFragment();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -41,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
                     //getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, taxiFragment).commit();
                 } else if(item.getItemId() == R.id.menu_ring) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, mapFragment).commit();
+                } else if(item.getItemId() == R.id.menu_hitch) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, hitchhikingFragment).commit();
                 }
+
                 return false;
             }
         });
