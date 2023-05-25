@@ -34,8 +34,8 @@ public class HitchhikingFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_hitchhiking, container, false);
-        Button driverBtn = view.findViewById(R.id.driverbtn);
-        Button hitchhikerBtn = view.findViewById(R.id.hitchhikerbtn);
+        driverBtn = view.findViewById(R.id.driverbtn);
+        hitchhikerBtn = view.findViewById(R.id.hitchhikerbtn);
         driverBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
