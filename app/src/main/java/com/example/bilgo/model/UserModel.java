@@ -18,14 +18,14 @@ public class UserModel {
 
     }
 
-    public UserModel(String phone, String name, String surname, String gender, String dateOfBirth, Timestamp createdTimeStamp, String profilePictureLink, int points, int rank) {
+    public UserModel(String phone, String name, String surname, String gender, String dateOfBirth, Timestamp createdTimeStamp) {
         this.phone = phone;
         this.name = name;
         this.surname = surname;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.createdTimeStamp = createdTimeStamp;
-        this.profilePictureLink = profilePictureLink;
+        this.profilePictureLink = "";
         this.points = 0;
         this.rank = -1;
     }
