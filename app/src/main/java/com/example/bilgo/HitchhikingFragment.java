@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -30,7 +32,32 @@ public class HitchhikingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hitchhiking, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_hitchhiking, container, false);
+        Button driverBtn = view.findViewById(R.id.driverbtn);
+        Button hitchhikerBtn = view.findViewById(R.id.hitchhikerbtn);
+        driverBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFragment(new CreateGroupFragment());
+            }
+        });
+
+        hitchhikerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFragment(new HitchhikerFragment());
+            }
+        });
+
+        return view;
+    }
+
+    private void changeFragment(Fragment fragment) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame_layout, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -38,7 +65,7 @@ public class HitchhikingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         hitchhikerBtn = view.findViewById(R.id.hitchhikerbtn);
-        driverBtn = view.findViewById(R.id.driverbtn);
+
     }
 
 }

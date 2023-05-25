@@ -26,7 +26,7 @@
             android:backgroundTint="@color/my_secondary"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
-            android:text="Hitchhiking"
+            android:text="Hitchhıkıng"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/white"
