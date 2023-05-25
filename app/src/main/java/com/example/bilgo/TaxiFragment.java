@@ -5,12 +5,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.bilgo.model.TripModel;
 import com.google.firebase.firestore.CollectionReference;
@@ -26,6 +29,8 @@ public class TaxiFragment extends Fragment {
     private FirebaseFirestore firestore;
     private CollectionReference tripRef;
     private List<TripModel> tripList;
+    private Button createBtn;
+    private Button myGroupBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,31 @@ public class TaxiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_taxi, container, false);
+        View view = inflater.inflate(R.layout.fragment_taxi, container, false);
+        createBtn = view.findViewById(R.id.createBtn);
+        myGroupBtn = view.findViewById(R.id.myGroupBtn);
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFragment(new CreateGroupFragment());
+            }
+        });
+
+        myGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeFragment(new MyGroupFragment());
+            }
+        });
+
+        return view;
+    }
+
+    private void changeFragment(Fragment fragment) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame_layout, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -48,6 +77,8 @@ public class TaxiFragment extends Fragment {
         firestore = FirebaseFirestore.getInstance();
         tripRef = firestore.collection("trips");
         tripAdapter = new TaxiAdapter(tripList);
+
+        createBtn = view.findViewById(R.id.createBtn);
 
         tripRef.orderBy("seatsAvailable", Query.Direction.DESCENDING).addSnapshotListener((querySnapshot, error) -> {
             if (error != null) {
