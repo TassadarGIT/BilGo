@@ -18,22 +18,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/rank"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginRight="70dp"
-                android:text="Rank: "
-                android:background="@drawable/round_rectangle"
-                android:backgroundTint="@color/black"
                 android:layout_gravity="center"
-                android:textAlignment="center"
-                android:textSize="16dp"
-                android:textColor="@color/white"
+                android:layout_marginRight="70dp"
+                android:layout_weight="1"
+                android:background="@drawable/round_rectangle"
+                android:backgroundTint="@color/my_secondary"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
-                android:textAllCaps="true"/>
+                android:text="Rank: "
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
             <Button
                 android:id="@+id/profile_logout_btn"
                 android:layout_width="0dp"
