@@ -92,6 +92,7 @@ public class LoginUserActivity extends AppCompatActivity {
         dateButton = findViewById(R.id.datePickerButton);
         dateButton.setText(getTodaysDate());
 
+
         letMeInBtn.setOnClickListener((v) -> {
             setUsername();
         });
@@ -231,9 +232,6 @@ public class LoginUserActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
 
     void getUsername() {
         setInProgress(true);
