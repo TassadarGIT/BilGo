@@ -18,16 +18,16 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Taxi Sharing"
+            android:layout_margin="8dp"
+            android:background="@drawable/round_rectangle"
+            android:backgroundTint="@color/my_secondary"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
-            android:textAllCaps="true"
-            android:textSize="16dp"
+            android:text="Taxi Sharing"
             android:textAlignment="center"
+            android:textAllCaps="true"
             android:textColor="@color/white"
-            android:background="@drawable/round_rectangle"
-            android:backgroundTint="@color/non_clickable"
-            android:layout_margin="8dp"/>
+            android:textSize="16dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
