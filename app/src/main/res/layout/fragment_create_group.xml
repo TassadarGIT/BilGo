@@ -137,7 +137,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner1"
+        android:id="@+id/spinnerHours"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginStart="60dp"
@@ -150,7 +150,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner2"
+        android:id="@+id/spinnerMinutes"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginStart="196dp"
