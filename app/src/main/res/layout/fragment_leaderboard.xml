@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:background="@drawable/round_rectangle"
-            android:backgroundTint="@color/non_clickable"
+            android:backgroundTint="@color/my_secondary"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
             android:text="Leaderboard"
