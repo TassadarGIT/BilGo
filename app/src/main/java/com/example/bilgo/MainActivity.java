@@ -2,6 +2,7 @@ package com.example.bilgo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -27,8 +28,9 @@ public class MainActivity extends AppCompatActivity {
         taxiFragment = new TaxiFragment();
         mapFragment = new MapFragment();
         hitchhikingFragment = new HitchhikingFragment();
-
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, mapFragment).commit(); // starts the app with ring tracker page
+
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

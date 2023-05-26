@@ -34,6 +34,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         UserModel user = userList.get(position);
+        user.setRank(position + 1);
         holder.bind(user);
     }
 
@@ -45,16 +46,19 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
         private TextView pointsTextView;
+        private TextView rankTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.name);
             pointsTextView = itemView.findViewById(R.id.points);
+            rankTextView = itemView.findViewById(R.id.rank);
         }
 
         public void bind(UserModel user) {
             nameTextView.setText(user.getName() + " " + user.getSurname());
             pointsTextView.setText(String.valueOf(user.getPoints()));
+            rankTextView.setText(String.valueOf(user.getRank()));
         }
     }
 }

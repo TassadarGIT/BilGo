@@ -232,8 +232,6 @@ public class ProfileFragment extends Fragment {
         return byteBuffer.toByteArray();
     }
 
-
-
     void saveChanges() {
         userModel.setName(profileNameInput.getText().toString());
         userModel.setSurname(profileSurnameInput.getText().toString());
@@ -248,8 +246,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    private void setupBDatePicker(Context context)
-    {
+    private void setupBDatePicker(Context context) {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
         {
             @Override
@@ -271,9 +268,7 @@ public class ProfileFragment extends Fragment {
         //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
     }
 
-    private String makeDateString(int day, int month, int year)
-    {
+    private String makeDateString(int day, int month, int year) {
         return day + " / " + month + " / " + year;
     }
-
 }
