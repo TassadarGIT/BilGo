@@ -4,8 +4,8 @@ import com.google.firebase.firestore.GeoPoint;
 
 public class TripModel {
 
-    private GeoPoint departurePoint;
-    private GeoPoint destinationPoint;
+    private String departurePoint;
+    private String destinationPoint;
     private String date;
     private int seatsAvailable = 4;
 
@@ -13,26 +13,26 @@ public class TripModel {
 
     }
 
-    public TripModel(GeoPoint departurePoint, GeoPoint destinationPoint, String date, int seatsAvailable) {
+    public TripModel(String departurePoint, String destinationPoint, String date, int seatsAvailable) {
         this.departurePoint = departurePoint;
         this.destinationPoint = destinationPoint;
         this.date = date;
         this.seatsAvailable = seatsAvailable;
     }
 
-    public GeoPoint getDeparturePoint() {
+    public String getDeparturePoint() {
         return departurePoint;
     }
 
-    public void setDeparturePoint(GeoPoint departurePoint) {
+    public void setDeparturePoint(String departurePoint) {
         this.departurePoint = departurePoint;
     }
 
-    public GeoPoint getDestinationPoint() {
+    public String getDestinationPoint() {
         return destinationPoint;
     }
 
-    public void setDestinationPoint(GeoPoint destinationPoint) {
+    public void setDestinationPoint(String destinationPoint) {
         this.destinationPoint = destinationPoint;
     }
 
