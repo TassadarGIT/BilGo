@@ -243,9 +243,9 @@ public class LoginUserActivity extends AppCompatActivity {
                     userModel = task.getResult().toObject(UserModel.class);
 
                     if(userModel != null) {
-                        nameInput.setText(userModel.getName());
-                        surnameInput.setText(userModel.getSurname());
-                        dateButton.setText(userModel.getDateOfBirth());
+                        Intent intent = new Intent(LoginUserActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                     }
                 }
             }
