@@ -44,31 +44,36 @@
             android:id="@+id/linearSecond"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_below="@id/linearFirst">
-            <Button
-                android:id="@+id/deptBtn"
+            android:layout_below="@id/linearFirst"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/deptText"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="36dp"
                 android:layout_weight="1"
+                android:background="@drawable/round_rectangle"
                 android:backgroundTint="@color/gray_1"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:text="Bilkent"
+                android:text="Departure"
                 android:textColor="@color/black"
-                android:textAllCaps="false"
-                android:textAlignment="viewStart"/>
-            <Button
-                android:id="@+id/destBtn"
+                android:textSize="16sp"
+                android:gravity="center|start"
+                android:paddingHorizontal="8dp"/>
+            <TextView
+                android:id="@+id/destText"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="36dp"
                 android:layout_weight="1"
+                android:background="@drawable/round_rectangle"
                 android:backgroundTint="@color/gray_1"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:text="ASTI"
+                android:text="Destination"
                 android:textColor="@color/black"
-                android:textAllCaps="false"
-                android:textAlignment="viewStart"/>
+                android:textSize="16sp"
+                android:gravity="center|start"
+                android:paddingHorizontal="8dp"/>
         </LinearLayout>
     </RelativeLayout>
 

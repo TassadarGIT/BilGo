@@ -14,9 +14,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.bilgo.model.TripModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class CreateGroupFragment extends Fragment {
@@ -27,6 +34,11 @@ public class CreateGroupFragment extends Fragment {
 
     private Spinner hourSpinner;
     private Spinner minuteSpinner;
+    private EditText deptEdit;
+    private EditText destEdit;
+    private EditText slotsEdit;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,5 +99,33 @@ public class CreateGroupFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         createBtn = view.findViewById(R.id.createBtn);
+        deptEdit = view.findViewById(R.id.deptEdit);
+        destEdit = view.findViewById(R.id.destEdit);
+        slotsEdit = view.findViewById(R.id.slotsEdit);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String dept = deptEdit.getText().toString();
+                String dest = destEdit.getText().toString();
+                int seatsAvailable = 4; // by default
+                seatsAvailable = Integer.parseInt(slotsEdit.getText().toString());
+                TripModel trip = new TripModel(dept, dest, hour + minute, seatsAvailable);
+                db.collection("trips").add(trip)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                // trip added, can perform additional operations here
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // TODO: handle the error
+                            }
+                        });
+            }
+        });
 
     }}

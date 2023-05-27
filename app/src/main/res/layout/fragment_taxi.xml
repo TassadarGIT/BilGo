@@ -7,65 +7,70 @@
     android:background="@color/my_primary"
     tools:context=".TaxiFragment">
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/round_rectangle"
+        android:backgroundTint="@color/my_secondary"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:text="Taxi Sharing"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:layout_centerHorizontal="true"/>
+
     <LinearLayout
+        android:id="@+id/linearTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_above="@id/linearBottom"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="4dp"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_margin="20dp">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/round_rectangle"
-            android:backgroundTint="@color/my_secondary"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            android:text="Taxi Sharing"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="16dp" />
+        android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"/>
-        
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"/>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearBottom"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:layout_alignParentBottom="true">
-
+        android:orientation="horizontal">
         <Button
             android:id="@+id/myGroupBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:text="My Group"
-            android:backgroundTint="@color/my_secondary"
-            android:layout_weight="1"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/my_secondary"
+            android:text="My Group" />
+
         <Button
             android:id="@+id/createBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:text="Create Group"
-            android:backgroundTint="@color/my_secondary"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_toEndOf="@+id/myGroupBtn"
             android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"/>
-
+            android:backgroundTint="@color/my_secondary"
+            android:text="Create Group" />
     </LinearLayout>
 
 </RelativeLayout>

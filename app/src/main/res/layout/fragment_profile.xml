@@ -64,8 +64,8 @@
                 android:backgroundTint="@color/my_secondary"
                 android:text="Change Photo"
                 android:layout_margin="8dp"/>
-
         </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,10 +94,12 @@
             android:id="@+id/profile_phoneNumber"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:textColor="@color/black"
             android:hint="Phone number"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:gravity="center|start"
+            android:paddingHorizontal="4dp"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,10 +108,12 @@
                 android:id="@+id/profile_birthday"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:textColor="@color/black"
                 android:hint="Birthday"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp"
+                android:gravity="center|start"
+                android:paddingHorizontal="4dp"/>
         <Button
             android:id="@+id/profile_save_btn"
             android:layout_width="wrap_content"
@@ -117,7 +121,6 @@
             android:backgroundTint="@color/my_secondary"
             android:text="Save Changes"
             android:layout_marginBottom="8dp"/>
-
     </LinearLayout>
 
 </RelativeLayout>
