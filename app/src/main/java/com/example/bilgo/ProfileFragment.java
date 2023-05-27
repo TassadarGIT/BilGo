@@ -34,6 +34,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -46,16 +47,14 @@ public class ProfileFragment extends Fragment {
 
     private EditText profileNameInput;
     private EditText profileSurnameInput;
-    private EditText profilePhoneInput;
+    private TextView profilePhone;
+    private TextView profileBirthdate;
     private ImageView profilePicture;
     private Button profilePictureButton;
     private String phoneNumber;
-    private String dateOfBirth;
     private Button profileLogoutBtn;
     private Button profileSaveBtn;
     private UserModel userModel;
-    private DatePickerDialog datePickerDialog;
-    private Button dateButton;
     private TextView profileRank;
 
     @Override
@@ -71,7 +70,8 @@ public class ProfileFragment extends Fragment {
 
         profileNameInput = view.findViewById(R.id.profile_name_edit);
         profileSurnameInput = view.findViewById(R.id.profile_surname_edit);
-        profilePhoneInput = view.findViewById(R.id.profile_phone_edit);
+        profilePhone = view.findViewById(R.id.profile_phoneNumber);
+        profileBirthdate = view.findViewById(R.id.profile_birthday);
         profileLogoutBtn = view.findViewById(R.id.profile_logout_btn);
         profileSaveBtn = view.findViewById(R.id.profile_save_btn);
         profileRank = view.findViewById(R.id.rank);
@@ -79,12 +79,7 @@ public class ProfileFragment extends Fragment {
         profilePicture = view.findViewById(R.id.profilePicture);
         profilePictureButton = view.findViewById(R.id.pp_change_button);
 
-        setupBDatePicker(view.getContext());
-        dateButton = view.findViewById(R.id.datePickerButton);
-
         getUser();
-
-        dateButton.setText(dateOfBirth);
 
         profileLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,9 +126,11 @@ public class ProfileFragment extends Fragment {
                         profileNameInput.setText(userModel.getName());
                         profileSurnameInput.setText(userModel.getSurname());
                         phoneNumber = userModel.getPhone();
-                        profilePhoneInput.setText(phoneNumber);
-                        dateButton.setText(userModel.getDateOfBirth());
-                        loadProfileImage(userModel.getProfilePictureLink());
+                        profilePhone.setText(phoneNumber);
+                        profileBirthdate.setText(userModel.getDateOfBirth());
+                        if(userModel.getProfilePictureLink() != null) {
+                            loadProfileImage(userModel.getProfilePictureLink());
+                        }
                         profileRank.setText("Rank: " + userModel.getRank()); // TODO
                     }
                 }
@@ -235,8 +232,6 @@ public class ProfileFragment extends Fragment {
     void saveChanges() {
         userModel.setName(profileNameInput.getText().toString());
         userModel.setSurname(profileSurnameInput.getText().toString());
-        userModel.setDateOfBirth(dateOfBirth);
-
         FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -244,31 +239,5 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
-    }
-
-    private void setupBDatePicker(Context context) {
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
-        {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day)
-            {
-                month = month + 1;
-                String date = makeDateString(day, month, year);
-                dateOfBirth = date;
-                dateButton.setText(date);
-            }
-        };
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int style = AlertDialog.THEME_HOLO_LIGHT;
-
-        datePickerDialog = new DatePickerDialog(context, style, dateSetListener, year, month, day);
-        //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-    }
-
-    private String makeDateString(int day, int month, int year) {
-        return day + " / " + month + " / " + year;
     }
 }
