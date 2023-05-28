@@ -2,22 +2,28 @@ package com.example.bilgo.model;
 
 import com.google.firebase.firestore.GeoPoint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TripModel {
 
     private String departurePoint;
     private String destinationPoint;
     private String date;
     private int seatsAvailable = 4;
+    public ArrayList<String> members;
 
     public TripModel() {
 
     }
 
-    public TripModel(String departurePoint, String destinationPoint, String date, int seatsAvailable) {
+    public TripModel(String departurePoint, String destinationPoint, String date, int seatsAvailable, String userReference) {
         this.departurePoint = departurePoint;
         this.destinationPoint = destinationPoint;
         this.date = date;
         this.seatsAvailable = seatsAvailable;
+        members = new ArrayList<String>();
+        members.add(userReference);
     }
 
     public String getDeparturePoint() {
@@ -50,5 +56,17 @@ public class TripModel {
 
     public void setSeatsAvailable(int seatsAvailable) {
         this.seatsAvailable = seatsAvailable;
+    }
+
+    public ArrayList<String> addMembers(String userReference){
+        if(seatsAvailable > 0){
+            members.add(userReference);
+
+        }
+        return members;
+    }
+    public void removeMember(String userReference){
+        members.remove(userReference);
+        seatsAvailable++;
     }
 }

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bilgo.model.TripModel;
+import com.example.bilgo.utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -135,7 +136,7 @@ public class CreateGroupFragment extends Fragment {
                 String dest = destEdit.getText().toString();
                 int seatsAvailable = 4; // by default
                 seatsAvailable = Integer.parseInt(slotsEdit.getText().toString());
-                TripModel trip = new TripModel(dept, dest, hour + ":" + minute, seatsAvailable);
+                TripModel trip = new TripModel(dept, dest, hour + minute, seatsAvailable, FirebaseUtil.currentUserID().toString());
                 db.collection("trips").add(trip)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override

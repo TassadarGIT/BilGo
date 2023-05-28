@@ -12,6 +12,10 @@ public class FirebaseUtil {
         return FirebaseAuth.getInstance().getUid();
     }
 
+    public static String currentTripID() {
+        return FirebaseAuth.getInstance().getUid();
+    }
+
     public static boolean isLoggedIn() {
         if(currentUserID() != null) {
             return true;
@@ -27,5 +31,9 @@ public class FirebaseUtil {
     }
     public static Task<DocumentSnapshot> currentDriverDetails() {
         return FirebaseFirestore.getInstance().collection("drivers").document(currentUserID()).get();
+    }
+
+    public static DocumentReference currentTripDetails() {
+        return FirebaseFirestore.getInstance().collection("trips").document(currentTripID());
     }
 }
