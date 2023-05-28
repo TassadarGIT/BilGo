@@ -103,6 +103,30 @@ public class CreateGroupFragment extends Fragment {
         destEdit = view.findViewById(R.id.destEdit);
         slotsEdit = view.findViewById(R.id.slotsEdit);
 
+        hourSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hour = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO
+            }
+        });
+
+        minuteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                minute = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO
+            }
+        });
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +135,7 @@ public class CreateGroupFragment extends Fragment {
                 String dest = destEdit.getText().toString();
                 int seatsAvailable = 4; // by default
                 seatsAvailable = Integer.parseInt(slotsEdit.getText().toString());
-                TripModel trip = new TripModel(dept, dest, hour + minute, seatsAvailable);
+                TripModel trip = new TripModel(dept, dest, hour + ":" + minute, seatsAvailable);
                 db.collection("trips").add(trip)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override

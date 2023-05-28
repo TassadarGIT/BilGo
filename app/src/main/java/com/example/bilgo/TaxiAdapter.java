@@ -57,8 +57,8 @@ public class TaxiAdapter extends RecyclerView.Adapter<TaxiAdapter.ViewHolder> {
         }
 
         public void bind(TripModel trip) {
-            tripTimeText.setText("At: " + trip.getDate().toString());
-            seatsAvailableText.setText(trip.getSeatsAvailable() + " slots available");
+            tripTimeText.setText(trip.getDate().toString());
+            seatsAvailableText.setText(trip.getSeatsAvailable() + " slots");
             deptText.setText(trip.getDeparturePoint());
             destText.setText(trip.getDestinationPoint());
         }

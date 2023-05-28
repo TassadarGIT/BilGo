@@ -1,16 +1,28 @@
 package com.example.bilgo;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.concurrent.futures.AbstractResolvableFuture;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bilgo.model.UserModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
     private List<UserModel> userList;
@@ -47,18 +59,25 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         private TextView nameTextView;
         private TextView pointsTextView;
         private TextView rankTextView;
+        private ImageView profileImgView;
+        private String profileImgLink;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.name);
             pointsTextView = itemView.findViewById(R.id.points);
             rankTextView = itemView.findViewById(R.id.rank);
+            profileImgView = itemView.findViewById(R.id.profilePhoto);
         }
 
         public void bind(UserModel user) {
             nameTextView.setText(user.getName() + " " + user.getSurname());
             pointsTextView.setText(String.valueOf(user.getPoints()));
             rankTextView.setText(String.valueOf(user.getRank()));
+            profileImgLink = user.getProfilePictureLink();
+            if(profileImgLink != null && profileImgLink.isEmpty() == false) {
+                Picasso.get().load(profileImgLink).into(profileImgView);
+            }
         }
     }
 }

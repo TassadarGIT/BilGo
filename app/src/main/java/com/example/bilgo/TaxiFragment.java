@@ -17,9 +17,11 @@ import android.widget.Button;
 
 import com.example.bilgo.model.TripModel;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaxiFragment extends Fragment {
@@ -82,16 +84,22 @@ public class TaxiFragment extends Fragment {
         createBtn = view.findViewById(R.id.createBtn);
 
         tripRef.orderBy("seatsAvailable", Query.Direction.DESCENDING).addSnapshotListener((querySnapshot, error) -> {
-            if (error != null) {
-                // TODO: Handle the error
-                return;
-            }
+                    if (error != null) {
+                        // TODO: Handle the error
+                        return;
+                    }
 
-            if (querySnapshot != null) {
-                tripList = querySnapshot.toObjects(TripModel.class);
-                tripAdapter.updateData(tripList);
-                recyclerView.setAdapter(tripAdapter);
-            }
-        });
+                    if (querySnapshot != null) {
+                        tripList = new ArrayList<>();
+                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                            TripModel trip = document.toObject(TripModel.class);
+                            if (trip.getSeatsAvailable() > 0) {
+                                tripList.add(trip);
+                            }
+                        }
+                        tripAdapter.updateData(tripList);
+                        recyclerView.setAdapter(tripAdapter);
+                    }
+                });
     }
 }

@@ -82,49 +82,51 @@
         android:layout_height="wrap_content"
         android:background="@drawable/round_rectangle"
         android:backgroundTint="@color/gray_3">
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/linearThird"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center_vertical">
+
             <TextView
                 android:id="@+id/tripTime"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="80dp"
-                android:layout_weight="1"
+                android:layout_alignParentStart="true"
+                android:padding="6dp"
                 android:background="@drawable/round_rectangle"
                 android:backgroundTint="@color/gray_2"
-                android:gravity="center"
-                android:text="At: 14.30"
+                android:text="HH:MM"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
-            <Button
-                android:id="@+id/joinBtn"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="Join"
-                android:backgroundTint="@color/my_secondary"
-                android:layout_marginLeft="80dp"
-                android:layout_marginRight="8dp"/>
-        </LinearLayout>
+                android:layout_marginLeft="4dp"
+                android:layout_centerVertical="true"
+                android:textSize="16sp"/>
 
-        <LinearLayout
-            android:id="@+id/linearFourth"
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:layout_below="@+id/linearThird">
             <TextView
                 android:id="@+id/seatsAvailable"
-                android:layout_width="match_parent"
-                android:layout_height="16sp"
-                android:text="3 slots available"
-                android:textSize="12sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/tripTime"
+                android:background="@drawable/round_rectangle"
+                android:backgroundTint="@color/gray_2"
+                android:padding="6dp"
+                android:text="X slots"
                 android:textColor="@color/black"
-                android:gravity="right"
-                android:layout_marginRight="8dp"/>
-        </LinearLayout>
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/joinBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Join"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="4dp"
+                android:backgroundTint="@color/my_secondary"/>
+
+        </RelativeLayout>
+
+
     </RelativeLayout>
 </LinearLayout>
