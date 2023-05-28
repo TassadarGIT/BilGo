@@ -11,10 +11,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 
 
+import com.example.bilgo.model.UserModel;
+import com.example.bilgo.utils.FirebaseUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,14 +27,19 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import android.content.pm.PackageManager;
-
+import android.widget.Button;
 
 
 public class MapFragment extends Fragment{
 
     SupportMapFragment mapFragment;
+    UserModel userModel;
+    Button driverUserButton;
     GoogleMap googleMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 31;
 
@@ -41,6 +50,7 @@ public class MapFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
     }
     public void enableLocation(){
@@ -60,6 +70,7 @@ public class MapFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -86,9 +97,51 @@ public class MapFragment extends Fragment{
         return rootView;
     }
 
+    private void changeFragment(Fragment fragment) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame_layout, fragment);
+        fragmentTransaction.commit();
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    userModel = task.getResult().toObject(UserModel.class);
+                    checkIfUserIsDriver();
+                }
+            }
+        });
 
+        driverUserButton = view.findViewById(R.id.driverUserButton);
+        driverUserButton.setEnabled(false);
+        driverUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeFragment(new DriverRegisterFragment());
+            }
+        });
     }
+    private void checkIfUserIsDriver(){
+        FirebaseUtil.currentRingDriverDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if (!document.exists()) {
+                        driverUserButton.setVisibility(View.VISIBLE);
+                        driverUserButton.setEnabled(true);
+                    }
+                    else {
+                        driverUserButton.setVisibility(View.INVISIBLE);
+                        driverUserButton.setEnabled(false);
+                    }
+                }
+            }
+        });
+    }
+
 }

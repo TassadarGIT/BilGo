@@ -8,10 +8,17 @@
         <item>Female</item>
         <item>Other</item>
     </string-array>
+    <string name="route_spinner_prompt">Select a gender</string>
+    <string-array name="route_array">
+        <item>Select a route</item>
+        //Default option
+        <item>TMD</item>
+        <item>SMD</item>
+        <item>Merkez-Dogu</item>
+    </string-array>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

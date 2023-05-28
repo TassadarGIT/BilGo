@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".MapFragment">
 
+
+    <Button
+        android:id="@+id/driverUserButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:backgroundTint="@color/my_secondary"
+        android:text="REGISTER AS DRIVER" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,8 +33,10 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clickable="true"/>
+                android:clickable="true" />
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

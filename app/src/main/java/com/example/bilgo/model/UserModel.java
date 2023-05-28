@@ -13,7 +13,6 @@ public class UserModel {
     private int points;
     private int rank;
     private String id;
-
     public UserModel() {
 
     }
