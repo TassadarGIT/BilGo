@@ -146,7 +146,7 @@ public class CreateGroupFragment extends Fragment {
                 String dest = destEdit.getText().toString();
                 int seatsAvailable = 4; // by default
                 seatsAvailable = Integer.parseInt(slotsEdit.getText().toString());
-                TripModel trip = new TripModel(dept, dest, hour + minute, seatsAvailable);
+                TripModel trip = new TripModel(dept, dest, hour + minute, seatsAvailable, FirebaseUtil.currentUserID().toString());
 
                 // Add the trip object to Firestore
                 db.collection("trips").add(trip)
