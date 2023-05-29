@@ -1,5 +1,6 @@
 package com.example.bilgo;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -17,14 +18,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.bilgo.model.GroupModel;
 import com.example.bilgo.model.TripModel;
 import com.example.bilgo.utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Arrays;
 
 
 public class CreateGroupFragment extends Fragment {
@@ -38,6 +44,7 @@ public class CreateGroupFragment extends Fragment {
     private EditText deptEdit;
     private EditText destEdit;
     private EditText slotsEdit;
+    private CollectionReference groupsRef;
 
 
 
@@ -129,6 +136,9 @@ public class CreateGroupFragment extends Fragment {
         });
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,21 +146,61 @@ public class CreateGroupFragment extends Fragment {
                 String dest = destEdit.getText().toString();
                 int seatsAvailable = 4; // by default
                 seatsAvailable = Integer.parseInt(slotsEdit.getText().toString());
-                TripModel trip = new TripModel(dept, dest, hour + minute, seatsAvailable, FirebaseUtil.currentUserID().toString());
+                TripModel trip = new TripModel(dept, dest, hour + minute, seatsAvailable);
+
+                // Add the trip object to Firestore
                 db.collection("trips").add(trip)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                // trip added, can perform additional operations here
+                                // Trip added successfully
+
+                                // Retrieve the auto-generated trip ID
+                                String tripId = documentReference.getId();
+
+                                // Check if currentUser is not null before accessing getUid()
+                                if (currentUser != null) {
+                                    // Create a new ChatScreen object
+                                    //ChatScreen chatScreen = new ChatScreen(tripId, currentUser.getUid());
+
+                                    // Add the group object to Firestore
+                                    groupsRef = db.collection("groups");
+                                    GroupModel group = new GroupModel(Arrays.asList(currentUser.getUid()));
+                                    groupsRef.add(group)
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(DocumentReference documentReference) {
+                                                    // The group was successfully added to Firestore
+                                                    // Retrieve the auto-generated document ID
+                                                    String groupId = documentReference.getId();
+                                                    // Use the groupId as needed
+                                                    // For example, you can store it in a variable or pass it to another function
+                                                    Intent intent = new Intent(getActivity(), ChatScreen.class);
+                                                    intent.putExtra("groupId", groupId);
+                                                    startActivity(intent);
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    // An error occurred while adding the group to Firestore
+                                                    // Handle the failure and display an error message or perform appropriate actions
+                                                }
+                                            });
+                                } else {
+                                    // Handle the case when currentUser is null
+                                    // Display an error message or perform appropriate actions
+                                }
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                // TODO: handle the error
+                                // An error occurred while adding the trip to Firestore
+                                // Handle the failure and display an error message or perform appropriate actions
                             }
                         });
             }
         });
-
     }}
+

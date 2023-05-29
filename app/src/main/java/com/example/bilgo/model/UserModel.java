@@ -2,6 +2,8 @@ package com.example.bilgo.model;
 
 import com.google.firebase.Timestamp;
 
+import java.util.List;
+
 public class UserModel {
     private String phone;
     private String name;
@@ -13,6 +15,8 @@ public class UserModel {
     private int points;
     private int rank;
     private String id;
+    private List<String> groupIds;
+
     public UserModel() {
 
     }
@@ -27,6 +31,7 @@ public class UserModel {
         this.profilePictureLink = "";
         this.points = 0;
         this.rank = -1;
+        this.groupIds = null;
     }
 
     public String getProfilePictureLink() {
@@ -108,5 +113,16 @@ public class UserModel {
     public void setId(String id) {
         this.id = id;
     }
+
+    public List<String> getGroupIds() {
+        return groupIds;
+    }
+
+    public void setGroupIds(List<String> groupIds) {
+        this.groupIds = groupIds;
+    }
+
+
+
 
 }
