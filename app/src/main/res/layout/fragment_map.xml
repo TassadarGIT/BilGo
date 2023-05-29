@@ -11,9 +11,19 @@
         android:id="@+id/driverUserButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="50dp"
         android:backgroundTint="@color/my_secondary"
         android:text="REGISTER AS DRIVER" />
+    <Button
+        android:id="@+id/driverResignButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@color/my_secondary"
+        android:text="RESIGN AS DRIVER"
+        android:enabled="false"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
