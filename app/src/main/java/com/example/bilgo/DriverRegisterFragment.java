@@ -1,6 +1,7 @@
 package com.example.bilgo;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.bilgo.model.RingDriverModel;
 import com.example.bilgo.model.UserModel;
+import com.example.bilgo.services.LocationService;
 import com.example.bilgo.utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -113,14 +115,19 @@ public class DriverRegisterFragment extends Fragment {
         if(driverModel != null){
             driverModel.setLicensePlate(licensePlate);
             driverModel.setRingRoute(route.toString());
+            driverModel.setLatitude(39.867780);
+            driverModel.setLongitude(32.751128);
+            driverModel.setTimestamp(System.currentTimeMillis());
         } else{
-            driverModel = new RingDriverModel(licensePlate,route);
+            driverModel = new RingDriverModel(licensePlate,route,39.867780,32.751128,System.currentTimeMillis());
         }
 
         FirebaseUtil.currentRingDriverDetails().set(driverModel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
+                    Intent intent = new Intent(getContext(), LocationService.class);
+                    getContext().startForegroundService(intent);
                     changeFragment(new MapFragment());
                 }
             }

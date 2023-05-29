@@ -6,13 +6,21 @@ public class RingDriverModel {
 
     private String ringRoute;
 
+    private double longitude;
+    private double latitude;
+    private long timestamp;
+
+
     public RingDriverModel(){
 
     }
 
-    public RingDriverModel(String license, String route){
+    public RingDriverModel(String license, String route, double latitude, double longitude, long timestamp){
         this.licensePlate = license;
         this.ringRoute = route;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.timestamp = timestamp;
 
     }
 
@@ -30,5 +38,29 @@ public class RingDriverModel {
 
     public void setRingRoute(String ringRoute) {
         this.ringRoute = ringRoute;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }
