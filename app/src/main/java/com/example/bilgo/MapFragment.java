@@ -1,10 +1,14 @@
 package com.example.bilgo;
 
+import static android.content.ContentValues.TAG;
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +21,9 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 
 
+import com.example.bilgo.model.RingDriverModel;
 import com.example.bilgo.model.UserModel;
+import com.example.bilgo.services.LocationService;
 import com.example.bilgo.utils.FirebaseUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -25,14 +31,25 @@ import com.google.android.gms.maps.GoogleMap;
 
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import android.content.pm.PackageManager;
 import android.widget.Button;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MapFragment extends Fragment{
@@ -41,6 +58,8 @@ public class MapFragment extends Fragment{
     UserModel userModel;
     Button driverUserButton;
     GoogleMap googleMap;
+
+    private Map<Marker, String> markerDriverMap = new HashMap<>();
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 31;
 
     public MapFragment() {
@@ -91,7 +110,30 @@ public class MapFragment extends Fragment{
                 enableLocation();
                 uiManager.setMapToolbarEnabled(true);
                 uiManager.setMyLocationButtonEnabled(true);
-
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                String currentUserId = FirebaseUtil.currentUserID();
+                db.collection("drivers").document(currentUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot ds = task.getResult();
+                            if(ds.exists()){
+                                RingDriverModel ringDriver = ds.toObject(RingDriverModel.class);
+                                if(ringDriver != null){
+                                    Intent intent = new Intent(getContext(), LocationService.class);
+                                    getContext().startForegroundService(intent);
+                                }
+                            }
+                            else{
+                                Log.e(TAG,"Document does not exist!");
+                            }
+                        }
+                        else{
+                            Log.e(TAG,"Task failed with " + task.getException());
+                        }
+                    }
+                });
+                startListening();
             }
         });
         return rootView;
@@ -142,6 +184,60 @@ public class MapFragment extends Fragment{
                 }
             }
         });
+    }
+    public void startListening(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("drivers").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException error) {
+                if(error != null){
+                    Log.w(TAG, "Listen failed.", error);
+                    return;
+                }
+                for(DocumentChange dc : snapshots.getDocumentChanges()){
+                    RingDriverModel driver = dc.getDocument().toObject(RingDriverModel.class);
+                    switch(dc.getType()){
+                        case ADDED:
+                            addMarker(driver);
+                            Log.e(TAG,"location added!");
+                            break;
+                        case MODIFIED:
+                            updateMarker(driver);
+                            //Marker zort = googleMap.addMarker(new MarkerOptions().position(new LatLng(driver.getLatitude(),driver.getLongitude())).title((driver.getLicensePlate()+ " | " +driver.getRingRoute())));
+                            Log.e(TAG,"location modified!");
+                            break;
+                        case REMOVED:
+                            removeMarker(driver);
+                            Log.e(TAG,"location removed!");
+                            break;
+                    }
+                }
+            }
+        });
+    }
+    private void addMarker(RingDriverModel driver){
+        Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(driver.getLatitude(),driver.getLongitude())).title((driver.getLicensePlate()+ " | " +driver.getRingRoute())));
+        markerDriverMap.put(marker,driver.getLicensePlate());
+    }
+    private void updateMarker(RingDriverModel driver){
+        Log.e(TAG, "updateMarker is called successfully");
+        for(Map.Entry<Marker,String> entry : markerDriverMap.entrySet()){
+            Log.e(TAG,"for each is entered");
+            if(entry.getValue().equals(driver.getLicensePlate())){
+                Log.e(TAG,"setPosition is called successfully!");
+                entry.getKey().setPosition(new LatLng(driver.getLatitude(),driver.getLongitude()));
+                break;
+            }
+        }
+    }
+    private void removeMarker(RingDriverModel driver){
+        for(Map.Entry<Marker,String> entry : markerDriverMap.entrySet()){
+            if(entry.getValue().equals(driver.getLicensePlate())){
+                entry.getKey().remove();
+                markerDriverMap.remove(entry.getKey());
+                break;
+            }
+        }
     }
 
 }
