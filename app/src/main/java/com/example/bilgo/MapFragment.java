@@ -2,10 +2,16 @@ package com.example.bilgo;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -31,12 +37,15 @@ import com.google.android.gms.maps.GoogleMap;
 
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -47,6 +56,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import android.content.pm.PackageManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,8 +67,11 @@ public class MapFragment extends Fragment{
     SupportMapFragment mapFragment;
     UserModel userModel;
     Button driverUserButton;
+    Button driverResignButton;
     GoogleMap googleMap;
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String currentUserId = FirebaseUtil.currentUserID();
     private Map<Marker, String> markerDriverMap = new HashMap<>();
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 31;
 
@@ -159,11 +172,32 @@ public class MapFragment extends Fragment{
         });
 
         driverUserButton = view.findViewById(R.id.driverUserButton);
+        driverResignButton = view.findViewById(R.id.driverResignButton);
         driverUserButton.setEnabled(false);
         driverUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 changeFragment(new DriverRegisterFragment());
+            }
+        });
+        driverResignButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseUtil.currentRingDriverDetails().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getContext(), "You have successfully resigned as a driver.", Toast.LENGTH_SHORT).show();
+                        driverResignButton.setVisibility(View.GONE);
+                        driverResignButton.setEnabled(false);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Something went wrong when removing the user from the "drivers" collection
+                        Log.w(TAG, "Error deleting document", e);
+                        Toast.makeText(getContext(), "Failed to resign as a driver. Please try again later.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -176,10 +210,14 @@ public class MapFragment extends Fragment{
                     if (!document.exists()) {
                         driverUserButton.setVisibility(View.VISIBLE);
                         driverUserButton.setEnabled(true);
+                        driverResignButton.setEnabled(false);
+                        driverResignButton.setVisibility(View.INVISIBLE);
                     }
                     else {
                         driverUserButton.setVisibility(View.INVISIBLE);
                         driverUserButton.setEnabled(false);
+                        driverResignButton.setEnabled(true);
+                        driverResignButton.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -203,7 +241,6 @@ public class MapFragment extends Fragment{
                             break;
                         case MODIFIED:
                             updateMarker(driver);
-                            //Marker zort = googleMap.addMarker(new MarkerOptions().position(new LatLng(driver.getLatitude(),driver.getLongitude())).title((driver.getLicensePlate()+ " | " +driver.getRingRoute())));
                             Log.e(TAG,"location modified!");
                             break;
                         case REMOVED:
@@ -216,7 +253,7 @@ public class MapFragment extends Fragment{
         });
     }
     private void addMarker(RingDriverModel driver){
-        Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(driver.getLatitude(),driver.getLongitude())).title((driver.getLicensePlate()+ " | " +driver.getRingRoute())));
+        Marker marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(driver.getLatitude(),driver.getLongitude())).title((driver.getLicensePlate()+ " | " +driver.getRingRoute())).icon(drawableToBitmap(getContext(),R.drawable.bus_logo)));
         markerDriverMap.put(marker,driver.getLicensePlate());
     }
     private void updateMarker(RingDriverModel driver){
@@ -238,6 +275,17 @@ public class MapFragment extends Fragment{
                 break;
             }
         }
+    }
+    private BitmapDescriptor drawableToBitmap(Context context, int vectorDrawableID){
+        Drawable drawableResource = ContextCompat.getDrawable(context, vectorDrawableID);
+        drawableResource.setBounds(0,0,drawableResource.getIntrinsicWidth(),drawableResource.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(drawableResource.getIntrinsicWidth(),drawableResource.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawableResource.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+
+
+
     }
 
 }

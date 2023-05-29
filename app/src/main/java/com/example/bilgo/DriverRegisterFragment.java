@@ -115,11 +115,11 @@ public class DriverRegisterFragment extends Fragment {
         if(driverModel != null){
             driverModel.setLicensePlate(licensePlate);
             driverModel.setRingRoute(route.toString());
-            driverModel.setLatitude(39.867780);
-            driverModel.setLongitude(32.751128);
+            driverModel.setLatitude(0.0);
+            driverModel.setLongitude(0.0);
             driverModel.setTimestamp(System.currentTimeMillis());
         } else{
-            driverModel = new RingDriverModel(licensePlate,route,39.867780,32.751128,System.currentTimeMillis());
+            driverModel = new RingDriverModel(licensePlate,route,0.0,0.0,System.currentTimeMillis());
         }
 
         FirebaseUtil.currentRingDriverDetails().set(driverModel).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -128,6 +128,7 @@ public class DriverRegisterFragment extends Fragment {
                 if(task.isSuccessful()){
                     Intent intent = new Intent(getContext(), LocationService.class);
                     getContext().startForegroundService(intent);
+                    Toast.makeText(getContext(), "You have successfully registered as a driver.", Toast.LENGTH_SHORT).show();
                     changeFragment(new MapFragment());
                 }
             }

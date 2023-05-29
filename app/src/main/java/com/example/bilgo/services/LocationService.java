@@ -37,6 +37,8 @@ public class LocationService extends Service {
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     private static final int ONGOING_NOTIFICATION_ID = 1;
+    private Location lastUpdatedLocation;
+    private static final float MIN_UPDATE_DISTANCE = 100.0f;
 
 
     public LocationService() {
@@ -74,14 +76,19 @@ public class LocationService extends Service {
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
-                    Log.e(TAG, "Location Update: " + location.getLatitude() + ", " + location.getLongitude());
-                    updateLocationInFirestore(location.getLatitude(), location.getLongitude());
+
+
+                    if (lastUpdatedLocation == null || lastUpdatedLocation.distanceTo(location) >= MIN_UPDATE_DISTANCE) {
+                        Log.e(TAG, "Location Update: " + location.getLatitude() + ", " + location.getLongitude());
+                        lastUpdatedLocation = location;
+                        updateLocationInFirestore(location.getLatitude(), location.getLongitude());
+                    }
                 }
             }
         };
 
         LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(10000).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10000).setFastestInterval(10000).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
