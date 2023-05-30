@@ -73,14 +73,14 @@ public class TaxiAdapter extends RecyclerView.Adapter<TaxiAdapter.ViewHolder> {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         String ID = queryDocumentSnapshots.getDocuments().get(newPosition).getId();
-                        List<TripModel> trips1 = queryDocumentSnapshots.toObjects(TripModel.class);
+
                         for(int i = 0; i < 1; i++){
                             Log.d("s", String.valueOf(newPosition));
                             Log.d("s",ID);
                         }
                         trip.members.add(FirebaseUtil.currentUserDetails().getId().toString());
                         Log.d("d", trip.members.toString());
-
+                        trip.setSeatsAvailable(trip.getSeatsAvailable()-1);
                         FirebaseFirestore.getInstance().collection("trips").document(ID).set(trip);
                         // Changes...
 
@@ -113,7 +113,6 @@ public class TaxiAdapter extends RecyclerView.Adapter<TaxiAdapter.ViewHolder> {
         });
 
     }
-
 
     @Override
     public int getItemCount() {
