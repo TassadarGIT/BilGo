@@ -30,11 +30,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
+public class MyGroupAdapter extends RecyclerView.Adapter<MyGroupAdapter.ViewHolder> {
     private List<UserModel> userList;
-    UserModel user2;
 
-    public LeaderboardAdapter(List<UserModel> userList) {
+    public MyGroupAdapter(List<UserModel> userList) {
         this.userList = userList;
     }
 

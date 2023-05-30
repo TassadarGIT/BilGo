@@ -83,7 +83,7 @@ public class TaxiFragment extends Fragment {
 
         createBtn = view.findViewById(R.id.createBtn);
 
-        tripRef.orderBy("seatsAvailable", Query.Direction.DESCENDING).addSnapshotListener((querySnapshot, error) -> {
+        tripRef.addSnapshotListener((querySnapshot, error) -> {
                     if (error != null) {
                         // TODO: Handle the error
                         return;
