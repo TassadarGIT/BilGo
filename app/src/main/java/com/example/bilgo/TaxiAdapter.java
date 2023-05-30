@@ -84,35 +84,31 @@ public class TaxiAdapter extends RecyclerView.Adapter<TaxiAdapter.ViewHolder> {
                         FirebaseFirestore.getInstance().collection("trips").document(ID).set(trip);
                         // Changes...
 
-                        /*
                         FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
                                 if(task.isSuccessful()) {
                                     userModel = task.getResult().toObject(UserModel.class);
+                                    userModel.setTripID(ID);
+                                    FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()) {
 
+                                            }
+                                        }
+                                    });
                                     if(userModel != null) {
 
                                     }
                                 }
                             }
                         });
-                        userModel.setGroupId(ID);
-                        FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()) {
 
-                                }
-                            }
-                        });
-                        */
                     }
                 });
 
-                //tripList.set(holder.getAbsoluteAdapterPosition(), new TripModel("f", "cfdf","dfec",2,"dc"));
-                //Log.d("d", "" + tripList.get(holder.getAbsoluteAdapterPosition()).toString());
             }
         });
 
