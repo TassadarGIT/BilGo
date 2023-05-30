@@ -146,7 +146,6 @@ public class CreateGroupFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,8 +155,6 @@ public class CreateGroupFragment extends Fragment {
                 seatsAvailable = Integer.parseInt(slotsEdit.getText().toString());
                 TripModel trip = new TripModel(dept, dest, hour + ":" + minute, seatsAvailable, FirebaseUtil.currentUserID().toString());
 
-                // Add the trip object to Firestore
-
                 db.collection("trips").add(trip)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
@@ -166,6 +163,21 @@ public class CreateGroupFragment extends Fragment {
                                 Log.e("TAG","Succesfully added trip");
                                 tripID = documentReference.getId();
                                 Log.e("TAG", tripID.toString());
+                                documentReference.update("groupId", tripID)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                // groupId field was successfully updated
+                                                // Continue with any further actions or handling
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // An error occurred while updating the groupId field
+                                                // Handle the failure and display an error message or perform appropriate actions
+                                            }
+                                        });
                                 db.collection("users").document(FirebaseUtil.currentUserID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -198,7 +210,7 @@ public class CreateGroupFragment extends Fragment {
                                                 public void onSuccess(DocumentReference documentReference) {
                                                     // The group was successfully added to Firestore
                                                     // Retrieve the auto-generated document ID
-                                                    String groupId = documentReference.getId();
+                                                    String groupId = tripID;
                                                     // Use the groupId as needed
                                                     // For example, you can store it in a variable or pass it to another function
                                                     Intent intent = new Intent(getActivity(), ChatScreen.class);

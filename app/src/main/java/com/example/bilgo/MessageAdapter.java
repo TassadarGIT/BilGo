@@ -40,15 +40,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         if (currentUser != null && message.getSenderId().equals(currentUser.getUid())) {
             // Message from the current user
             holder.layoutMessageContainer.setGravity(Gravity.END);
-            holder.textViewMessageContent.setBackgroundResource(R.drawable.round_rectangle_primary); // Update the background color
+            holder.textViewMessageContent.setBackgroundResource(R.drawable.round_rectangle_primary);
+            holder.textViewUserName.setText(message.getSenderName());
+            holder.textViewUserName.setGravity(Gravity.END);
         } else {
             // Message from another user
             holder.layoutMessageContainer.setGravity(Gravity.START);
-            holder.textViewMessageContent.setBackgroundResource(R.drawable.round_rectangle_secondary); // Update the background color
+            holder.textViewMessageContent.setBackgroundResource(R.drawable.round_rectangle_secondary);
+            holder.textViewUserName.setText(message.getSenderName());
+            holder.textViewUserName.setGravity(Gravity.START);
         }
 
         // Bind the message data to the views
-        holder.textViewUserName.setText(message.getSenderName());
         holder.textViewMessageContent.setText(message.getContent());
         holder.textViewMessageTime.setText(message.getFormattedTimestamp());
     }

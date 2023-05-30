@@ -21,6 +21,7 @@ public class TripModel {
     private int seatsAvailable = 4;
     public ArrayList<String> members;
     public ArrayList<String> memberNames;
+    private String groupId;
 
     String name;
     UserModel user;
@@ -34,6 +35,7 @@ public class TripModel {
         this.destinationPoint = destinationPoint;
         this.date = date;
         this.seatsAvailable = seatsAvailable;
+        this.groupId = null;
         members = new ArrayList<String>();
         members.add(userReference);
         memberNames = new ArrayList<String>();
@@ -103,6 +105,13 @@ public class TripModel {
     public void removeMember(String userReference){
         members.remove(userReference);
         seatsAvailable++;
+    }
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
 

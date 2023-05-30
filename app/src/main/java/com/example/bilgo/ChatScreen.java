@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,7 +55,9 @@ public class ChatScreen extends AppCompatActivity {
         if (extras != null && extras.containsKey("groupId")) {
             groupId = getIntent().getStringExtra("groupId");
         } else {
-            // Handle the case when groupId is not provided
+            Toast.makeText(this, "Group ID not provided.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
         // Initialize Firestore and the messages collection reference
@@ -64,6 +67,11 @@ public class ChatScreen extends AppCompatActivity {
         recyclerViewMessages = findViewById(R.id.recycler_view_messages);
         editTextMessage = findViewById(R.id.edit_text_message);
         buttonSend = findViewById(R.id.button_send);
+
+        // Add a back button in the action bar with a custom icon
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_arrow);
+
 
         // Initialize message list and adapter
         messageList = new ArrayList<>();
@@ -209,4 +217,20 @@ public class ChatScreen extends AppCompatActivity {
         // Get the current user's name when the activity starts
         getCurrentUserName();
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle back button click here
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        // Navigate back to MyGroupFragment
+        finish();
+    }
+
+
 }
