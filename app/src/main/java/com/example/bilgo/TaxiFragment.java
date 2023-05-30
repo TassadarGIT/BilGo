@@ -78,7 +78,7 @@ public class TaxiFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         firestore = FirebaseFirestore.getInstance();
-        tripRef = firestore.collection("trips");
+        tripRef = firestore.collection("tripsTaxi");
         tripAdapter = new TaxiAdapter(tripList);
 
         createBtn = view.findViewById(R.id.createBtn);

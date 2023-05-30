@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.bilgo.model.UserModel;
 import com.example.bilgo.utils.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -111,8 +112,12 @@ public class ProfileFragment extends Fragment {
     }
 
     void loadProfileImage(String profilePictureLink) {
+        RequestOptions requestOptions = new RequestOptions()
+                .circleCrop()
+                .override(128, 128);
         Glide.with(this)
                 .load(profilePictureLink)
+                .apply(requestOptions)
                 .into(profilePicture);
     }
     void getUser() {

@@ -17,9 +17,11 @@ import android.widget.Button;
 
 import com.example.bilgo.model.TripModel;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HitchhikerFragment extends Fragment {
@@ -77,7 +79,13 @@ public class HitchhikerFragment extends Fragment {
             }
 
             if (querySnapshot != null) {
-                tripList = querySnapshot.toObjects(TripModel.class);
+                tripList = new ArrayList<>();
+                for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                    TripModel trip = document.toObject(TripModel.class);
+                    if (trip.getSeatsAvailable() > 0) {
+                        tripList.add(trip);
+                    }
+                }
                 tripAdapter.updateData(tripList);
                 recyclerView.setAdapter(tripAdapter);
             }

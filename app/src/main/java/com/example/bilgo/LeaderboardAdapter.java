@@ -1,5 +1,10 @@
 package com.example.bilgo;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Shader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.concurrent.futures.AbstractResolvableFuture;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.bilgo.model.UserModel;
 import com.example.bilgo.utils.FirebaseUtil;
 import com.firebase.ui.auth.data.model.User;
@@ -25,6 +31,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Transformation;
 
 import java.util.HashMap;
 import java.util.List;
@@ -83,7 +91,34 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
             rankTextView.setText(String.valueOf(user.getRank()));
             profileImgLink = user.getProfilePictureLink();
             if(profileImgLink != null && profileImgLink.isEmpty() == false) {
-                Picasso.get().load(profileImgLink).into(profileImgView);
+                Picasso.get()
+                        .load(profileImgLink)
+                        .resize(128, 128)
+                        .centerCrop()
+                        .transform(new Transformation() {
+                            @Override
+                            public Bitmap transform(Bitmap source) {
+                                Bitmap circularBitmap = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
+                                BitmapShader shader = new BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+                                Paint paint = new Paint();
+                                paint.setShader(shader);
+                                paint.setAntiAlias(true);
+
+                                Canvas canvas = new Canvas(circularBitmap);
+                                float radius = source.getWidth() / 2f;
+                                canvas.drawCircle(radius, radius, radius, paint);
+
+                                source.recycle();
+
+                                return circularBitmap;
+                            }
+
+                            @Override
+                            public String key() {
+                                return "circle";
+                            }
+                        })
+                        .into(profileImgView);
             }
         }
     }
