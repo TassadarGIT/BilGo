@@ -98,7 +98,6 @@ public class LoginUserActivity extends AppCompatActivity {
         });
 
 
-
         //Gender Picker
         Spinner genderSelector = findViewById(R.id.gender_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.gender_array, android.R.layout.simple_spinner_item);
@@ -109,13 +108,14 @@ public class LoginUserActivity extends AppCompatActivity {
         genderSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position != 0) {
+                if (position != 0) {
                     String selectedGender = parent.getItemAtPosition(position).toString();
                     // Do something with the selected item
                     gender = genderSelector.getItemAtPosition(position).toString();
                     Toast.makeText(parent.getContext(), "Selected: " + selectedGender, Toast.LENGTH_LONG).show();
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Another interface callback
@@ -147,7 +147,7 @@ public class LoginUserActivity extends AppCompatActivity {
         FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     userModel = task.getResult().toObject(UserModel.class);
                 }
             }
@@ -239,10 +239,10 @@ public class LoginUserActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 setInProgress(false);
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     userModel = task.getResult().toObject(UserModel.class);
 
-                    if(userModel != null) {
+                    if (userModel != null) {
                         Intent intent = new Intent(LoginUserActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
@@ -256,11 +256,11 @@ public class LoginUserActivity extends AppCompatActivity {
         name = nameInput.getText().toString();
         surname = surnameInput.getText().toString();
 
-        if(name.isEmpty() || name.length()<3) {
+        if (name.isEmpty() || name.length() < 3) {
             nameInput.setError("Name length should at least be 3 characters!");
             return;
         }
-        if(surname.isEmpty() || surname.length()<3) {
+        if (surname.isEmpty() || surname.length() < 3) {
             surnameInput.setError("Surname length should at least be 3 characters!");
             return;
         }
@@ -268,7 +268,7 @@ public class LoginUserActivity extends AppCompatActivity {
 
         String uniqueID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        if(userModel!=null) {
+        if (userModel != null) {
             userModel.setName(name);
             userModel.setSurname(surname);
             userModel.setPhone(phoneNumber);
@@ -284,7 +284,7 @@ public class LoginUserActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 setInProgress(false);
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     Intent intent = new Intent(LoginUserActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
@@ -303,13 +303,10 @@ public class LoginUserActivity extends AppCompatActivity {
         return makeDateString(day, month, year);
     }
 
-    private void setupBDatePicker()
-    {
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
-        {
+    private void setupBDatePicker() {
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day)
-            {
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
                 String date = makeDateString(day, month, year);
                 dateOfBirth = date;
@@ -325,42 +322,43 @@ public class LoginUserActivity extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
         //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
     }
-    private String makeDateString(int day, int month, int year)
-    {
+
+    private String makeDateString(int day, int month, int year) {
         return day + " / " + month + " / " + year;
     }
-    private String getMonthFormat(int month)
-    {
-        if(month == 1)
+
+    private String getMonthFormat(int month) {
+        if (month == 1)
             return "JAN";
-        if(month == 2)
+        if (month == 2)
             return "FEB";
-        if(month == 3)
+        if (month == 3)
             return "MAR";
-        if(month == 4)
+        if (month == 4)
             return "APR";
-        if(month == 5)
+        if (month == 5)
             return "MAY";
-        if(month == 6)
+        if (month == 6)
             return "JUN";
-        if(month == 7)
+        if (month == 7)
             return "JUL";
-        if(month == 8)
+        if (month == 8)
             return "AUG";
-        if(month == 9)
+        if (month == 9)
             return "SEP";
-        if(month == 10)
+        if (month == 10)
             return "OCT";
-        if(month == 11)
+        if (month == 11)
             return "NOV";
-        if(month == 12)
+        if (month == 12)
             return "DEC";
 
         //default should never happen
         return "JAN";
     }
+
     void setInProgress(boolean inProgress) {
-        if(inProgress) {
+        if (inProgress) {
             progressBar.setVisibility(View.VISIBLE);
             letMeInBtn.setVisibility(View.GONE);
         } else {
@@ -369,9 +367,7 @@ public class LoginUserActivity extends AppCompatActivity {
         }
     }
 
-    public void openDatePicker(View view)
-    {
+    public void openDatePicker(View view) {
         datePickerDialog.show();
     }
-
 }

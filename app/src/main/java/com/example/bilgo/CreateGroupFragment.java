@@ -230,4 +230,3 @@ public class CreateGroupFragment extends Fragment {
             }
         });
     }}
-
