@@ -39,13 +39,14 @@
             android:layout_gravity="center"
             android:text="Choose your role"
             android:background="@drawable/round_rectangle"
-            android:backgroundTint="@color/gray_1"
             android:padding="8dp"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"/>
 
         <LinearLayout
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
