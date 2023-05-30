@@ -1,5 +1,13 @@
 package com.example.bilgo.model;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
@@ -12,6 +20,10 @@ public class TripModel {
     private String date;
     private int seatsAvailable = 4;
     public ArrayList<String> members;
+    public ArrayList<String> memberNames;
+
+    String name;
+    UserModel user;
 
     public TripModel() {
 
@@ -24,6 +36,29 @@ public class TripModel {
         this.seatsAvailable = seatsAvailable;
         members = new ArrayList<String>();
         members.add(userReference);
+        memberNames = new ArrayList<String>();
+
+        FirebaseFirestore.getInstance().collection("users").document(userReference).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.exists()) {
+                        // Document exists, retrieve its data
+                        user = documentSnapshot.toObject(UserModel.class);
+                        name = user.getName();
+                        memberNames.add(name);
+
+                        // Use the trip object as needed
+                    } else {
+                        // Document does not exist
+                    }
+                } else {
+                    // Error occurred while fetching document
+                }
+            }
+        });
+
     }
 
     public String getDeparturePoint() {
@@ -69,4 +104,6 @@ public class TripModel {
         members.remove(userReference);
         seatsAvailable++;
     }
+
+
 }

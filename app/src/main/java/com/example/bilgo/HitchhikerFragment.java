@@ -29,7 +29,6 @@ public class HitchhikerFragment extends Fragment {
     private FirebaseFirestore firestore;
     private CollectionReference tripRef;
     private List<TripModel> tripList;
-
     private Button myGroupButton;
 
     @Override

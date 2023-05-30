@@ -15,6 +15,7 @@ public class UserModel {
     private int points;
     private int rank;
     private String id;
+    private String tripID;
     private List<String> groupIds;
     private String userId;
 
@@ -22,7 +23,7 @@ public class UserModel {
 
     }
 
-    public UserModel(String phone, String name, String surname, String gender, String dateOfBirth, Timestamp createdTimeStamp) {
+    public UserModel(String phone, String name, String surname, String gender, String dateOfBirth, Timestamp createdTimeStamp, String tripID) {
         this.phone = phone;
         this.name = name;
         this.surname = surname;
@@ -32,6 +33,7 @@ public class UserModel {
         this.profilePictureLink = "";
         this.points = 0;
         this.rank = -1;
+        this.tripID = tripID;
         this.groupIds = null;
         this.userId = null;
     }
@@ -115,6 +117,10 @@ public class UserModel {
     public void setId(String id) {
         this.id = id;
     }
+
+    public void setTripID(String tripID) {this.tripID = tripID;}
+
+    public String getTripID() { return this.tripID; }
 
     public List<String> getGroupIds() {
         return groupIds;

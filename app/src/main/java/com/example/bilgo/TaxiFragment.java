@@ -84,22 +84,22 @@ public class TaxiFragment extends Fragment {
         createBtn = view.findViewById(R.id.createBtn);
 
         tripRef.addSnapshotListener((querySnapshot, error) -> {
-                    if (error != null) {
-                        // TODO: Handle the error
-                        return;
-                    }
+            if (error != null) {
+                // TODO: Handle the error
+                return;
+            }
 
-                    if (querySnapshot != null) {
-                        tripList = new ArrayList<>();
-                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                            TripModel trip = document.toObject(TripModel.class);
-                            if (trip.getSeatsAvailable() > 0) {
-                                tripList.add(trip);
-                            }
-                        }
-                        tripAdapter.updateData(tripList);
-                        recyclerView.setAdapter(tripAdapter);
+            if (querySnapshot != null) {
+                tripList = new ArrayList<>();
+                for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                    TripModel trip = document.toObject(TripModel.class);
+                    if (trip.getSeatsAvailable() > 0) {
+                        tripList.add(trip);
                     }
-                });
+                }
+                tripAdapter.updateData(tripList);
+                recyclerView.setAdapter(tripAdapter);
+            }
+        });
     }
 }

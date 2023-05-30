@@ -274,9 +274,10 @@ public class LoginUserActivity extends AppCompatActivity {
             userModel.setPhone(phoneNumber);
             userModel.setGender(gender);
             userModel.setDateOfBirth(dateOfBirth);
+            userModel.setTripID("");
             userModel.setUserId(uniqueID);
         } else {
-            userModel = new UserModel(phoneNumber, name, surname, gender, dateOfBirth, Timestamp.now());
+            userModel = new UserModel(phoneNumber, name, surname, gender, dateOfBirth, Timestamp.now(), "");
         }
 
         FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {

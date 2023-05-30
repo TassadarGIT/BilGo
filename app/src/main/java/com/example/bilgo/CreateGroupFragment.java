@@ -18,17 +18,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bilgo.model.GroupModel;
 import com.example.bilgo.model.TripModel;
+import com.example.bilgo.model.UserModel;
 import com.example.bilgo.utils.FirebaseUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.Arrays;
 
@@ -46,7 +53,8 @@ public class CreateGroupFragment extends Fragment {
     private EditText slotsEdit;
     private CollectionReference groupsRef;
 
-
+    UserModel userModel;
+    String tripID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -149,16 +157,34 @@ public class CreateGroupFragment extends Fragment {
                 TripModel trip = new TripModel(dept, dest, hour + ":" + minute, seatsAvailable, FirebaseUtil.currentUserID().toString());
 
                 // Add the trip object to Firestore
+
                 db.collection("trips").add(trip)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                // Trip added successfully
-
-                                // Retrieve the auto-generated trip ID
-                                String tripId = documentReference.getId();
-
-                                // Check if currentUser is not null before accessing getUid()
+                                Toast.makeText(getContext(),"You have created a trip!",Toast.LENGTH_LONG);
+                                Log.e("TAG","Succesfully added trip");
+                                tripID = documentReference.getId();
+                                Log.e("TAG", tripID.toString());
+                                db.collection("users").document(FirebaseUtil.currentUserID()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            Log.e("success","success getting details");
+                                            userModel = task.getResult().toObject(UserModel.class);
+                                            userModel.setTripID(tripID.toString());
+                                            db.collection("users").document(FirebaseUtil.currentUserID()).set(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    Log.e("success","successfully updated");
+                                                }
+                                            });
+                                        }
+                                        else{
+                                            Log.e("error","can't get user details");
+                                        }
+                                    }
+                                });
                                 if (currentUser != null) {
                                     // Create a new ChatScreen object
                                     //ChatScreen chatScreen = new ChatScreen(tripId, currentUser.getUid());
@@ -191,6 +217,7 @@ public class CreateGroupFragment extends Fragment {
                                     // Handle the case when currentUser is null
                                     // Display an error message or perform appropriate actions
                                 }
+
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
