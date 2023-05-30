@@ -70,7 +70,7 @@ public class HitchhikerFragment extends Fragment {
         tripRef = firestore.collection("trips");
         tripAdapter = new TaxiAdapter(tripList);
 
-        tripRef.orderBy("seatsAvailable", Query.Direction.DESCENDING).addSnapshotListener((querySnapshot, error) -> {
+        tripRef.addSnapshotListener((querySnapshot, error) -> {
             if (error != null) {
                 // TODO: Handle the error
                 return;
