@@ -59,13 +59,35 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/leaveGroupBtn"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearBottom"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/my_secondary"
-        android:text="Leave Group"
         android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"/>
+        android:gravity="center"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/leaveGroupBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/my_secondary"
+            android:text="Leave Group" />
+
+        <Button
+            android:id="@+id/chatBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@+id/myGroupBtn"
+            android:layout_weight="1"
+            android:backgroundTint="@color/my_secondary"
+            android:text="Chat" />
+    </LinearLayout>
 
 </RelativeLayout>

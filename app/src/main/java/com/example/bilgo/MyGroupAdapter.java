@@ -31,13 +31,14 @@ import java.util.List;
 import java.util.Map;
 
 public class MyGroupAdapter extends RecyclerView.Adapter<MyGroupAdapter.ViewHolder> {
-    private List<UserModel> userList;
+    private List<String> userList;
+    UserModel user2;
 
-    public MyGroupAdapter(List<UserModel> userList) {
+    public MyGroupAdapter(List<String> userList) {
         this.userList = userList;
     }
 
-    public void updateData(List<UserModel> updatedUserList) {
+    public void updateData(List<String> updatedUserList) {
         userList = updatedUserList;
         notifyDataSetChanged();
     }
@@ -45,15 +46,14 @@ public class MyGroupAdapter extends RecyclerView.Adapter<MyGroupAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_view, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mygroup_view, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        UserModel user = userList.get(position);
-        user.setRank(position + 1);
-        holder.bind(user);
+        String s = userList.get(position);
+        holder.bind(s);
     }
 
     @Override
@@ -63,27 +63,14 @@ public class MyGroupAdapter extends RecyclerView.Adapter<MyGroupAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
-        private TextView pointsTextView;
-        private TextView rankTextView;
-        private ImageView profileImgView;
-        private String profileImgLink;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.name);
-            pointsTextView = itemView.findViewById(R.id.points);
-            rankTextView = itemView.findViewById(R.id.rank);
-            profileImgView = itemView.findViewById(R.id.profilePhoto);
         }
 
-        public void bind(UserModel user) {
-            nameTextView.setText(user.getName() + " " + user.getSurname());
-            pointsTextView.setText(String.valueOf(user.getPoints()));
-            rankTextView.setText(String.valueOf(user.getRank()));
-            profileImgLink = user.getProfilePictureLink();
-            if(profileImgLink != null && profileImgLink.isEmpty() == false) {
-                Picasso.get().load(profileImgLink).into(profileImgView);
-            }
+        public void bind(String s) {
+            nameTextView.setText(s);
         }
     }
 }
