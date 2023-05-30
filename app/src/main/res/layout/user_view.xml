@@ -16,10 +16,12 @@
 
     <ImageView
         android:id="@+id/profilePhoto"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/rank"/>
+        android:layout_centerHorizontal="true"
+        android:layout_toEndOf="@id/rank"
+        android:src="@drawable/default_user_profile"/>
     <TextView
         android:id="@+id/name"
         android:layout_width="183dp"
