@@ -30,6 +30,7 @@
 
         <activity
             android:name=".ChatScreen"
+            android:theme="@style/WhiteTheme"
             android:exported="false" />
 
         <meta-data
@@ -44,6 +45,7 @@
         <activity
             android:name=".LoginPhoneActivity"
             android:exported="false" />
+
         <activity
             android:name=".SplashActivity"
             android:exported="true">
