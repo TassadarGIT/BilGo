@@ -1,4 +1,5 @@
 package com.example.bilgo;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -72,7 +73,6 @@ public class ChatScreen extends AppCompatActivity {
 
         // Get the current user ID
         currentUserId = getCurrentUserID();
-        currentUserName();
 
         // Send button click listener
         buttonSend.setOnClickListener(new View.OnClickListener() {
@@ -123,36 +123,6 @@ public class ChatScreen extends AppCompatActivity {
         }
     }
 
-    private void currentUserName() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-    // Get a reference to the Firestore collection where users are stored
-        CollectionReference usersCollectionRef = FirebaseFirestore.getInstance().collection("users");
-
-    // Query the collection to find the document of the current user
-        Query query = usersCollectionRef.whereEqualTo("id", currentUser.getUid());
-
-    // Execute the query
-        query.get()
-                .addOnSuccessListener(querySnapshot -> {
-                    // Check if there is a matching document for the current user
-                    if (!querySnapshot.isEmpty()) {
-                        // Access the first document (assuming there is only one match)
-                        DocumentSnapshot doc = querySnapshot.getDocuments().get(0);
-
-                        // Access the fields of the document
-                        currentUserName = doc.getString("name");
-
-                    } else {
-                        System.out.println("No matching document found for the current user.");
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    System.out.println("Error getting documents: " + e.getMessage());
-                });
-    }
-
-
     private void loadGroupChatMessages() {
         messagesListener = messagesCollection
                 .whereEqualTo("groupId", groupId)
@@ -199,5 +169,44 @@ public class ChatScreen extends AppCompatActivity {
                         // Handle the failure and display an error message or perform appropriate actions
                     }
                 });
+    }
+
+    private void getCurrentUserName() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Get a reference to the Firestore collection where users are stored
+        CollectionReference usersCollectionRef = FirebaseFirestore.getInstance().collection("users");
+
+        // Query the collection to find the document of the current user
+        Query query = usersCollectionRef.whereEqualTo("userId", currentUser.getUid());
+
+        // Execute the query
+        query.get()
+                .addOnSuccessListener(querySnapshot -> {
+                    // Check if there is a matching document for the current user
+                    if (!querySnapshot.isEmpty()) {
+                        // Access the first document (assuming there is only one match)
+                        DocumentSnapshot doc = querySnapshot.getDocuments().get(0);
+
+                        // Access the fields of the document
+                        currentUserName = doc.getString("name");
+
+                        // Continue loading group chat messages after getting the current user's name
+                        loadGroupChatMessages();
+                    } else {
+                        System.out.println("No matching document found for the current user.");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    System.out.println("Error getting documents: " + e.getMessage());
+                });
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Get the current user's name when the activity starts
+        getCurrentUserName();
     }
 }

@@ -16,6 +16,7 @@ public class UserModel {
     private int rank;
     private String id;
     private List<String> groupIds;
+    private String userId;
 
     public UserModel() {
 
@@ -32,6 +33,7 @@ public class UserModel {
         this.points = 0;
         this.rank = -1;
         this.groupIds = null;
+        this.userId = null;
     }
 
     public String getProfilePictureLink() {
@@ -121,8 +123,8 @@ public class UserModel {
     public void setGroupIds(List<String> groupIds) {
         this.groupIds = groupIds;
     }
-
-
+    public String getUserId(){return userId;}
+    public void setUserId(String userId){this.userId = userId;}
 
 
 }

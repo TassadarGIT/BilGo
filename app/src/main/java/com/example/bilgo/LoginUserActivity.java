@@ -266,12 +266,15 @@ public class LoginUserActivity extends AppCompatActivity {
         }
         setInProgress(true);
 
+        String uniqueID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         if(userModel!=null) {
             userModel.setName(name);
             userModel.setSurname(surname);
             userModel.setPhone(phoneNumber);
             userModel.setGender(gender);
             userModel.setDateOfBirth(dateOfBirth);
+            userModel.setUserId(uniqueID);
         } else {
             userModel = new UserModel(phoneNumber, name, surname, gender, dateOfBirth, Timestamp.now());
         }
