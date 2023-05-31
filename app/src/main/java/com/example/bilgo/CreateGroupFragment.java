@@ -211,11 +211,6 @@ public class CreateGroupFragment extends Fragment {
                                                     // The group was successfully added to Firestore
                                                     // Retrieve the auto-generated document ID
                                                     String groupId = tripID;
-                                                    // Use the groupId as needed
-                                                    // For example, you can store it in a variable or pass it to another function
-                                                    Intent intent = new Intent(getActivity(), ChatScreen.class);
-                                                    intent.putExtra("groupId", groupId);
-                                                    startActivity(intent);
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {

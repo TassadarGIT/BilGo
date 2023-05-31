@@ -132,6 +132,15 @@ public class MyGroupFragment extends Fragment {
         chatBtn = view.findViewById(R.id.chatBtn);
 
         getUsername();
+        chatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to ChatScreen activity
+                Intent intent = new Intent(getActivity(), ChatScreen.class);
+                intent.putExtra("tripID", tripID);
+                startActivity(intent);
+            }
+        });
 
     }
 }
