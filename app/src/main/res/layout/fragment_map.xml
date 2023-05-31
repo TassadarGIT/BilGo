@@ -6,21 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".MapFragment">
 
-
     <Button
         android:id="@+id/driverUserButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="28dp"
         android:backgroundTint="@color/my_secondary"
         android:text="REGISTER AS DRIVER" />
     <Button
         android:id="@+id/driverResignButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="72dp"
         android:backgroundTint="@color/my_secondary"
         android:text="RESIGN AS DRIVER"
         android:enabled="false"/>

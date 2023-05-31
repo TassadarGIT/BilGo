@@ -10,117 +10,139 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="28dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <TextView
+            android:id="@+id/rank"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@drawable/round_rectangle"
+            android:backgroundTint="@color/my_secondary"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:layout_marginEnd="48dp"
+            android:text="Rank: "
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/profile_logout_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="48dp"
+            android:backgroundTint="@color/my_secondary"
+            android:text="Log out"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
+        android:layout_centerInParent="true"
         android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_user_profile" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/rank"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="70dp"
-                android:layout_weight="1"
-                android:background="@drawable/round_rectangle"
-                android:backgroundTint="@color/my_secondary"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
-                android:text="Rank: "
-                android:textAlignment="center"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="16dp" />
             <Button
-                android:id="@+id/profile_logout_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Log out"
-                android:backgroundTint="@color/my_secondary"
-                android:layout_gravity="end"
-                android:layout_marginLeft="70dp"/>
-        </LinearLayout>
-        <ImageView
-                android:id="@+id/profilePicture"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:scaleType="fitCenter"
-                android:src="@drawable/baseline_person_24" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <Button
-                    android:id="@+id/pp_change_button"
+                android:id="@+id/pp_change_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="4dp"
                 android:backgroundTint="@color/my_secondary"
-                android:text="Change Photo"
-                android:layout_margin="8dp"/>
+                android:text="Change Photo" />
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name"/>
+            android:text="Name" />
+
         <EditText
             android:id="@+id/profile_name_edit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Name"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:hint="Name" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Surname"/>
+            android:text="Surname" />
+
         <EditText
             android:id="@+id/profile_surname_edit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Surname"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:hint="Surname" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Phone Number"/>
+            android:text="Phone Number" />
+
         <TextView
             android:id="@+id/profile_phoneNumber"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textSize="18dp"
-            android:textColor="@color/black"
-            android:hint="Phone number"
             android:layout_marginBottom="8dp"
             android:gravity="center|start"
-            android:paddingHorizontal="4dp"/>
+            android:hint="Phone number"
+            android:paddingHorizontal="4dp"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
         <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Birth Date"/>
-        <TextView
-                android:id="@+id/profile_birthday"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textSize="18dp"
-                android:textColor="@color/black"
-                android:hint="Birthday"
-                android:layout_marginBottom="8dp"
-                android:gravity="center|start"
-                android:paddingHorizontal="4dp"/>
-        <Button
-            android:id="@+id/profile_save_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/my_secondary"
-            android:text="Save Changes"
-            android:layout_marginBottom="8dp"/>
+            android:text="Birth Date" />
+
+        <TextView
+            android:id="@+id/profile_birthday"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center|start"
+            android:hint="Birthday"
+            android:paddingHorizontal="4dp"
+            android:textColor="@color/black"
+            android:textSize="18dp" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/profile_save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/my_secondary"
+        android:text="Save Changes"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
