@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +38,7 @@ public class TaxiAdapter extends RecyclerView.Adapter<TaxiAdapter.ViewHolder> {
 
     private List<TripModel> tripList;
     UserModel userModel;
+    TripModel tripModel;
 
     public TaxiAdapter(List<TripModel> tripList) {
         this.tripList = tripList;
@@ -78,9 +80,17 @@ public class TaxiAdapter extends RecyclerView.Adapter<TaxiAdapter.ViewHolder> {
                             Log.d("s", String.valueOf(newPosition));
                             Log.d("s",ID);
                         }
-                        trip.members.add(FirebaseUtil.currentUserDetails().getId().toString());
-                        Log.d("d", trip.members.toString());
-                        trip.setSeatsAvailable(trip.getSeatsAvailable()-1);
+                        FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                userModel = task.getResult().toObject(UserModel.class);
+                                if((!(trip.members.contains(FirebaseUtil.currentUserDetails().getId()))) && (userModel.getTripID() == null || userModel.getTripID() == "")){
+                                    trip.members.add(FirebaseUtil.currentUserDetails().getId().toString());
+                                    trip.setSeatsAvailable(trip.getSeatsAvailable()-1);
+                                }
+                            }
+                        });
+
                         FirebaseFirestore.getInstance().collection("trips").document(ID).set(trip);
                         // Changes...
 
@@ -90,7 +100,9 @@ public class TaxiAdapter extends RecyclerView.Adapter<TaxiAdapter.ViewHolder> {
 
                                 if(task.isSuccessful()) {
                                     userModel = task.getResult().toObject(UserModel.class);
-                                    userModel.setTripID(ID);
+                                    if(userModel.getTripID().equals(null)){
+                                        userModel.setTripID(ID);
+                                    }
                                     FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
