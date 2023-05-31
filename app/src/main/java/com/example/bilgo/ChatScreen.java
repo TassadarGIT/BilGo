@@ -42,7 +42,6 @@ public class ChatScreen extends AppCompatActivity {
     private String currentUserId;
     private String currentUserName;
     private String groupId;
-    private String tripID;
 
     private CollectionReference messagesCollection;
     private ListenerRegistration messagesListener;
@@ -53,10 +52,10 @@ public class ChatScreen extends AppCompatActivity {
         setContentView(R.layout.activity_chat_screen);
 
         Bundle extras = getIntent().getExtras();
-        if (extras != null && extras.containsKey("tripID")) {
-            tripID = getIntent().getStringExtra("tripID");
+        if (extras != null && extras.containsKey("groupId")) {
+            groupId = getIntent().getStringExtra("groupId");
         } else {
-            Toast.makeText(this, "Trip ID not provided.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "GroupID not provided.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }

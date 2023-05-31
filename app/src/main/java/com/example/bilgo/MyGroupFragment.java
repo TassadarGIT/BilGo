@@ -137,7 +137,7 @@ public class MyGroupFragment extends Fragment {
             public void onClick(View v) {
                 // Navigate to ChatScreen activity
                 Intent intent = new Intent(getActivity(), ChatScreen.class);
-                intent.putExtra("tripID", tripID);
+                intent.putExtra("groupId", tripID);
                 startActivity(intent);
             }
         });
