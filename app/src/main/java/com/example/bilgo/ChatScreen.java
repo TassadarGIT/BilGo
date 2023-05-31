@@ -134,7 +134,8 @@ public class ChatScreen extends AppCompatActivity {
     private void loadGroupChatMessages() {
         messagesListener = messagesCollection
                 .whereEqualTo("groupId", groupId)
-                .orderBy("formattedTimestamp", Query.Direction.ASCENDING)
+                .orderBy("timestamp", Query.Direction.ASCENDING) // Order messages by timestamp
+                .orderBy("formattedTimestamp", Query.Direction.ASCENDING) // Order messages by formatted timestamp
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@javax.annotation.Nullable QuerySnapshot querySnapshot, @javax.annotation.Nullable FirebaseFirestoreException error) {
@@ -157,6 +158,7 @@ public class ChatScreen extends AppCompatActivity {
                     }
                 });
     }
+
 
     private void storeMessageInFirestore(MessageModel message) {
         message.setGroupId(groupId); // Set the groupId for the message

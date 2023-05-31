@@ -131,17 +131,34 @@ public class ProfileFragment extends Fragment {
                         profileNameInput.setText(userModel.getName());
                         profileSurnameInput.setText(userModel.getSurname());
                         phoneNumber = userModel.getPhone();
-                        profilePhone.setText(phoneNumber);
-                        profileBirthdate.setText(userModel.getDateOfBirth());
+
+                        if (profilePhone != null) {
+                            profilePhone.setText(phoneNumber);
+                        } else {
+                            Log.e("ProfileFragment", "TextView profilePhone is null");
+                        }
+
+                        if (profileBirthdate != null) {
+                            profileBirthdate.setText(userModel.getDateOfBirth());
+                        } else {
+                            Log.e("ProfileFragment", "TextView profileBirthdate is null");
+                        }
+
                         if(userModel.getProfilePictureLink() != null) {
                             loadProfileImage(userModel.getProfilePictureLink());
                         }
-                        profileRank.setText("Rank: " + userModel.getRank()); // TODO
+
+                        if (profileRank != null) {
+                            profileRank.setText("Rank: " + userModel.getRank());
+                        } else {
+                            Log.e("ProfileFragment", "TextView profileRank is null");
+                        }
                     }
                 }
             }
         });
     }
+
     private final ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
             new ActivityResultCallback<Uri>() {
                 @Override
