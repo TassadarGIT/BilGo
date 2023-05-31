@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -132,6 +134,22 @@ public class MyGroupFragment extends Fragment {
         chatBtn = view.findViewById(R.id.chatBtn);
 
         getUsername();
+
+        leaveGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentUserName = user.getName();
+                if(members.contains(user)) {
+                    members.remove(user);
+                }
+                memberNames.remove(currentUserName);
+                user.decreasePoints();
+                user.setGroupIds(null);
+                user.setTripID(null);
+
+                changeFragment(new TaxiFragment());
+            }
+        });
         chatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,4 +161,12 @@ public class MyGroupFragment extends Fragment {
         });
 
     }
+
+    private void changeFragment(Fragment fragment) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame_layout, fragment);
+        fragmentTransaction.commit();
+    }
+
 }

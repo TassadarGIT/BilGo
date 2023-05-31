@@ -52,6 +52,14 @@ public class UserModel {
         this.points = points;
     }
 
+    public void increasePoints() {
+        this.points += 10;
+    }
+
+    public void decreasePoints() {
+        this.points -= 10;
+    }
+
     public String getPhone() {
         return phone;
     }
