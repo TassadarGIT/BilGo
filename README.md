@@ -47,3 +47,10 @@ them or click on leave group to leave the trip.
 ### Profile
 
 -You can see your profile, click on log out to log out, click on change image and select and image to change image, change your name/surname and click on save to save changes.
+
+# Dependencies
+
+![alt text](https://i.imgur.com/0gs5euL.jpg)
+
+
+
