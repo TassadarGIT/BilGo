@@ -48,12 +48,14 @@ public class MyGroupFragment extends Fragment {
     String tripID;
 
     TripModel currentTrip;
+    UserModel currentUser;
 
     ArrayList <String> members = new ArrayList<String>();
     ArrayList <String> memberNames = new ArrayList<String>();
     private CollectionReference groupRef;
     private CollectionReference userRef;
     String currentUserName;
+
 
     void getUsername() {
         FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -62,32 +64,27 @@ public class MyGroupFragment extends Fragment {
 
                 if(task.isSuccessful()) {
                     user = task.getResult().toObject(UserModel.class);
-                    Log.d("whatare", user.getName());
                     tripID = user.getTripID();
-                    Log.d("whatare", tripID.toString());
+
                     groupRef = FirebaseFirestore.getInstance().collection("trips");
                     userRef = FirebaseFirestore.getInstance().collection("users");
                     groupRef.document(tripID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             currentTrip = task.getResult().toObject(TripModel.class);
-                            Log.d("heyyy", currentTrip.toString());
-
                             members = currentTrip.members;
-                            Log.d("heyyy", currentTrip.members.toString());
+
                             for(int i = 0; i < members.size(); i++){
                                 String userID = members.get(i);
                                 userRef.document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        UserModel currentUser = task.getResult().toObject(UserModel.class);
+                                        currentUser = task.getResult().toObject(UserModel.class);
                                         //memberNames.add(index, currentUser.getName());
                                         currentUserName = currentUser.getName();
                                         memberNames.add(currentUserName);
-                                        Log.d("rfcd", memberNames.toString());
                                         // Check if all users have been processed
                                         if (memberNames.size() == members.size()) {
-                                            Log.d("membernames", memberNames.toString());
                                             userList = memberNames;
                                             myGroupAdapter.updateData(userList);
                                             recyclerView.setAdapter(myGroupAdapter);
@@ -95,11 +92,6 @@ public class MyGroupFragment extends Fragment {
                                     }
                                 });
                             }
-                            Log.d("membernames", memberNames.toString());
-                            //Log.d("members", memberNames.toString());
-                            userList = memberNames;
-                            myGroupAdapter.updateData(userList);
-                            recyclerView.setAdapter(myGroupAdapter);
                         }
                     });
 
@@ -138,6 +130,49 @@ public class MyGroupFragment extends Fragment {
         leaveGroupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            groupRef = FirebaseFirestore.getInstance().collection("trips");
+                            userRef = FirebaseFirestore.getInstance().collection("users");
+
+                            user = task.getResult().toObject(UserModel.class);
+
+                            tripID = user.getTripID();
+                            user.setTripID("");
+                            user.setPoints(user.getPoints()-1);
+                            FirebaseUtil.currentUserDetails().set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                }
+                            });
+                            groupRef.document(tripID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    currentTrip = task.getResult().toObject(TripModel.class);
+
+                                    currentTrip.removeMember(FirebaseUtil.currentUserID());
+                                    //currentTrip.setSeatsAvailable(currentTrip.getSeatsAvailable() +1);
+
+                                    groupRef.document(tripID).set(currentTrip).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                        }
+                                    });
+
+                                }
+                            });
+
+                        }
+
+                    }
+                });
+
+                /*
                 currentUserName = user.getName();
                 if(members.contains(user)) {
                     members.remove(user);
@@ -146,8 +181,8 @@ public class MyGroupFragment extends Fragment {
                 user.decreasePoints();
                 user.setGroupIds(null);
                 user.setTripID(null);
-
-                changeFragment(new TaxiFragment());
+                 */
+                changeFragment(new HitchhikerFragment());
             }
         });
         chatBtn.setOnClickListener(new View.OnClickListener() {

@@ -1,5 +1,6 @@
 package com.example.bilgo;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,12 +11,17 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.bilgo.model.TripModel;
+import com.example.bilgo.model.UserModel;
+import com.example.bilgo.utils.FirebaseUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,7 +52,22 @@ public class HitchhikerFragment extends Fragment {
         myGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeFragment(new MyGroupFragment());
+                FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                        if (task.isSuccessful()) {
+                            UserModel userModel = task.getResult().toObject(UserModel.class);
+                            Log.d("tripID", userModel.getTripID());
+                            if((userModel.getTripID().equals(null) == false) && (userModel.getTripID().equals("") == false) ){
+                                changeFragment(new MyGroupFragment());
+                            }
+                            else{
+                                Log.d("tripID","it is invalid tripID");
+                            }
+                        }
+                    }
+                });
             }
         });
 

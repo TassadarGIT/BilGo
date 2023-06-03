@@ -22,7 +22,6 @@ public class TripModel {
     public ArrayList<String> members;
     public ArrayList<String> memberNames;
     private String groupId;
-
     String name;
     UserModel user;
 
@@ -95,16 +94,17 @@ public class TripModel {
         this.seatsAvailable = seatsAvailable;
     }
 
-    public ArrayList<String> addMembers(String userReference){
+    public void addMember(String userReference){
         if(seatsAvailable > 0){
             members.add(userReference);
-
         }
-        return members;
     }
+
     public void removeMember(String userReference){
-        members.remove(userReference);
-        seatsAvailable++;
+        if(members.contains(userReference)){
+            members.remove(userReference);
+            seatsAvailable++;
+        }
     }
     public String getGroupId() {
         return groupId;

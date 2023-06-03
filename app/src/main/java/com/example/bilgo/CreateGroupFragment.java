@@ -127,7 +127,7 @@ public class CreateGroupFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // TODO
+
             }
         });
 
@@ -185,6 +185,7 @@ public class CreateGroupFragment extends Fragment {
                                             Log.e("success","success getting details");
                                             userModel = task.getResult().toObject(UserModel.class);
                                             userModel.setTripID(tripID.toString());
+                                            userModel.setPoints(userModel.getPoints() + 5);
                                             db.collection("users").document(FirebaseUtil.currentUserID()).set(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void unused) {
