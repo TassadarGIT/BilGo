@@ -204,7 +204,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:backgroundTint="@color/my_secondary"
-            android:text="Let me in" />
+            android:text="Register" />
 
         <ProgressBar
             android:id="@+id/login_progress_bar"
