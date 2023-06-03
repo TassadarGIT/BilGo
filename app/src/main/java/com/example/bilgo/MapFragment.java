@@ -277,15 +277,15 @@ public class MapFragment extends Fragment{
         }
     }
     private BitmapDescriptor drawableToBitmap(Context context, int vectorDrawableID){
-        Drawable drawableResource = ContextCompat.getDrawable(context, vectorDrawableID);
-        drawableResource.setBounds(0,0,drawableResource.getIntrinsicWidth(),drawableResource.getIntrinsicHeight());
-        Bitmap bitmap = Bitmap.createBitmap(drawableResource.getIntrinsicWidth(),drawableResource.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawableResource.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
-
-
-
+        if(context != null) {
+            Drawable drawableResource = ContextCompat.getDrawable(context, vectorDrawableID);
+            drawableResource.setBounds(0, 0, drawableResource.getIntrinsicWidth(), drawableResource.getIntrinsicHeight());
+            Bitmap bitmap = Bitmap.createBitmap(drawableResource.getIntrinsicWidth(), drawableResource.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawableResource.draw(canvas);
+            return BitmapDescriptorFactory.fromBitmap(bitmap);
+        }
+        return null;
     }
 
 }

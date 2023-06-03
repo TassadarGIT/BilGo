@@ -72,6 +72,7 @@ public class TaxiAdapter extends RecyclerView.Adapter<TaxiAdapter.ViewHolder> {
                                 userModel = task.getResult().toObject(UserModel.class);
                                 if( (trip.members.contains(FirebaseUtil.currentUserID()) == false) && (userModel.getTripID().equals(null) || userModel.getTripID().equals("")) ){
                                     trip.members.add(FirebaseUtil.currentUserDetails().getId().toString());
+                                    Toast.makeText(v.getContext(), "You joined a Group!", Toast.LENGTH_SHORT).show();
                                     trip.setSeatsAvailable(trip.getSeatsAvailable()-1);
                                     FirebaseFirestore.getInstance().collection("trips").document(ID).set(trip).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -92,6 +93,9 @@ public class TaxiAdapter extends RecyclerView.Adapter<TaxiAdapter.ViewHolder> {
                                     userModel = task.getResult().toObject(UserModel.class);
                                     if(userModel.getTripID().equals(null) || userModel.getTripID().equals("")){
                                         userModel.setTripID(ID);
+                                    }
+                                    else{
+                                        Toast.makeText(v.getContext(), "You are already in a group!", Toast.LENGTH_SHORT).show();
                                     }
                                     FirebaseUtil.currentUserDetails().set(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override

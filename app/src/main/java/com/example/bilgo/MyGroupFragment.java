@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -130,6 +131,7 @@ public class MyGroupFragment extends Fragment {
         leaveGroupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(view.getContext(), "You left the group!", Toast.LENGTH_SHORT).show();
 
                 FirebaseUtil.currentUserDetails().get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -142,7 +144,10 @@ public class MyGroupFragment extends Fragment {
 
                             tripID = user.getTripID();
                             user.setTripID("");
-                            user.setPoints(user.getPoints()-1);
+                            if(user.getPoints()>=5) {
+                                user.setPoints(user.getPoints() - 5);
+                            }
+                            else{user.setPoints(0);}
                             FirebaseUtil.currentUserDetails().set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -155,6 +160,7 @@ public class MyGroupFragment extends Fragment {
                                     currentTrip = task.getResult().toObject(TripModel.class);
 
                                     currentTrip.removeMember(FirebaseUtil.currentUserID());
+
                                     //currentTrip.setSeatsAvailable(currentTrip.getSeatsAvailable() +1);
 
                                     groupRef.document(tripID).set(currentTrip).addOnCompleteListener(new OnCompleteListener<Void>() {

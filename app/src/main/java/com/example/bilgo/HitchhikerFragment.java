@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.bilgo.model.TripModel;
 import com.example.bilgo.model.UserModel;
@@ -63,6 +64,7 @@ public class HitchhikerFragment extends Fragment {
                                 changeFragment(new MyGroupFragment());
                             }
                             else{
+                                Toast.makeText(getContext(), "You are not in a group!", Toast.LENGTH_SHORT).show();
                                 Log.d("tripID","it is invalid tripID");
                             }
                         }
